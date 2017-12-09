@@ -6,6 +6,19 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ## Getting Started
 * Contact [hello@epicalsoft.com](mailto:hello@epicalsoft.com) to create your Reach app.
 * Receive your **Client Id** and **Client Secret** and store them in a safe place.
+* Initialize the client using `var reachClient = new ReachClient("[ClientId]", "[ClientSecret]");`
+
+## Usage
+### Get Nearby Incidents
+```csharp
+GlobalContext.GetNearbyIncidents(double lat, double lng, byte groupId)
+```
+* **lat** Latitude
+* **lng** Longitude
+* **groupId** 1: Security, 2: Public Incidents, 3: Civil Protection, 4: Medical Incidents
+```csharp
+var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051299, -77.064956, 1);
+```
 
 ## Prerequisites
 * NETStandard.Library >= 2.0.0
