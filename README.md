@@ -3,6 +3,10 @@ This open-source library allows you to integrate Reach into your .NET Standard l
 
 Learn more about about the provided samples, documentation, integrating the SDK into your app, accessing source code.
 
+## Getting Started
+* Contact [hello@epicalsoft.com](mailto:hello@epicalsoft.com) to create your Reach app.
+* Receive your **Client Id** and **Client Secret** and store them in a safe place.
+
 ## Prerequisites
 * NETStandard.Library >= 2.0.0
 * Newtonsoft.Json >= 10.0.3
