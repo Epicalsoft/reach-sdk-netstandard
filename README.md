@@ -15,4 +15,5 @@ Follow @reachsos on Twitter and /reachsos on Facebook for updates.
 
 ## License
 Copyright 2017 Epicalsoft, Inc.
-Licensed under the MIT License: http://www.apache.org/licenses/LICENSE-2.0
+
+Licensed under the Apache License: http://www.apache.org/licenses/LICENSE-2.0
