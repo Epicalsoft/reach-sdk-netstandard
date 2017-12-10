@@ -9,13 +9,56 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 * Initialize the client using `var reachClient = new ReachClient("[ClientId]", "[ClientSecret]");`
 
 ## Usage
-### Get Nearby Incidents
+### 1. Get Incident Types - `GlobalContext.GetIncidentTypes()`
 ```csharp
-GlobalContext.GetNearbyIncidents(double lat, double lng, byte groupId)
+var countries = await reachClient.GlobalContext.GetIncidentTypes();
 ```
-* **lat** Latitude
-* **lng** Longitude
-* **groupId** 1: Security, 2: Public Incidents, 3: Civil Protection, 4: Medical Incidents
+#### Response
+```javascript
+[
+  {
+    "Code": 118,
+    "Name": "Abuse of authority",
+    "GroupId": 1,
+    "IconUrl": "https://reachsos.com/assets/icons/incidents/ic_abuso.png"
+  },
+  ...
+]
+```
+
+### 2. Get Road Types - `GlobalContext.GetRoadTypes()`
+```csharp
+var countries = await reachClient.GlobalContext.GetRoadTypes();
+```
+#### Response
+```javascript
+[
+  {
+    "Code": 11,
+    "Name": "Bridge"
+  },
+  ...
+]
+```
+
+### 3. Get Countries - `GlobalContext.GetCountries()`
+```csharp
+var countries = await reachClient.GlobalContext.GetCountries();
+```
+#### Response
+```javascript
+[
+  {
+    "Name": "Afghanistan",
+    "Alpha3": "AFG",
+    "CNC": 4
+  },
+  ...
+]
+```
+
+### 4. Get Nearby Incidents - `GlobalContext.GetNearbyIncidents(double lat, double lng, byte groupId)`
+GroupId values could be: 1: Security, 2: Public Incidents, 3: Civil Protection, 4: Medical Incidents
 ```csharp
 var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051299, -77.064956, 1);
 ```
@@ -29,21 +72,11 @@ var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051
     "Lng": -77.053617797792,
     "UTC": "2017-10-26T23:36:29.753"
   },
-  {
-    "Id": 221212,
-    "Type": 108,
-    "Lat": -12.0526251642248,
-    "Lng": -77.0815892145038,
-    "UTC": "2017-10-27T15:50:04.023"
-  }
+  ...
 ]
 ```
 
-### Get Incident Detail
-```csharp
-GlobalContext.GetIncidentDetail(int id)
-```
-* **id** Incident Id
+### 5. Get Incident Detail - `GlobalContext.GetIncidentDetail(int id)`
 ```csharp
 var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
 ```
@@ -59,9 +92,9 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
   "Longitude": -77.053617797792,
   "UTC": "2017-10-26T23:36:29.753",
   "HasEvidence": false,
-  "HighlightsCount": 0,
-  "CommentsCount": 0,
-  "InterventionsCount": 0,
+  "HighlightsCount": 27,
+  "CommentsCount": 6,
+  "InterventionsCount": 9,
   "RoadType": {
     "Code": 0,
     "Name": "Public road"
