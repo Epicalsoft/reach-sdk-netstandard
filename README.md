@@ -122,7 +122,6 @@ var suspectVerifyResult = await reachClient.GlobalContext.VerifySuspect(face);
 ```
 
 ## Prerequisites
-* NETStandard.Library >= 2.0.0
 * Newtonsoft.Json >= 10.0.3
 
 ## Contact
