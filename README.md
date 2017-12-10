@@ -9,15 +9,102 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 * Initialize the client using `var reachClient = new ReachClient("[ClientId]", "[ClientSecret]");`
 
 ## Usage
-### Get Nearby Incidents
+### 1. Get Incident Types - `GlobalContext.GetIncidentTypes()`
 ```csharp
-GlobalContext.GetNearbyIncidents(double lat, double lng, byte groupId)
+var countries = await reachClient.GlobalContext.GetIncidentTypes();
 ```
-* **lat** Latitude
-* **lng** Longitude
-* **groupId** 1: Security, 2: Public Incidents, 3: Civil Protection, 4: Medical Incidents
+#### Response
+```javascript
+[
+  {
+    "Code": 118,
+    "Name": "Abuse of authority",
+    "GroupId": 1,
+    "IconUrl": "https://reachsos.com/assets/icons/incidents/ic_abuso.png"
+  },
+  ...
+]
+```
+
+### 2. Get Road Types - `GlobalContext.GetRoadTypes()`
+```csharp
+var countries = await reachClient.GlobalContext.GetRoadTypes();
+```
+#### Response
+```javascript
+[
+  {
+    "Code": 11,
+    "Name": "Bridge"
+  },
+  ...
+]
+```
+
+### 3. Get Countries - `GlobalContext.GetCountries()`
+```csharp
+var countries = await reachClient.GlobalContext.GetCountries();
+```
+#### Response
+```javascript
+[
+  {
+    "Name": "Afghanistan",
+    "Alpha3": "AFG",
+    "CNC": 4
+  },
+  ...
+]
+```
+
+### 4. Get Nearby Incidents - `GlobalContext.GetNearbyIncidents(double lat, double lng, byte groupId)`
+GroupId values could be: 1: Security, 2: Public Incidents, 3: Civil Protection, 4: Medical Incidents
 ```csharp
 var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051299, -77.064956, 1);
+```
+#### Response
+```javascript
+[
+  {
+    "Id": 270609,
+    "Type": 121,
+    "Lat": -12.0697313823956,
+    "Lng": -77.053617797792,
+    "UTC": "2017-10-26T23:36:29.753"
+  },
+  ...
+]
+```
+
+### 5. Get Incident Detail - `GlobalContext.GetIncidentDetail(int id)`
+```csharp
+var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
+```
+#### Response
+```javascript
+{
+  "Id": 270609,
+  "UserId": 1630,
+  "Description": "Something is happening! Winter is coming!",
+  "Thumbnail": null,
+  "Abstract": "Something is happening! Winter is...",
+  "Latitude": -12.0697313823956,
+  "Longitude": -77.053617797792,
+  "UTC": "2017-10-26T23:36:29.753",
+  "HasEvidence": false,
+  "HighlightsCount": 27,
+  "CommentsCount": 6,
+  "InterventionsCount": 9,
+  "RoadType": {
+    "Code": 0,
+    "Name": "Public road"
+  },
+  "IncidentType": {
+    "Code": 103,
+    "Name": "Kidnapping"
+  },
+  "Nickname": "Tsaheylu"
+}
 ```
 
 ## Prerequisites
