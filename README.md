@@ -10,6 +10,7 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 
 ## Usage
 ### 1. Get Incident Types - `GlobalContext.GetIncidentTypes()`
+#### Invocation
 ```csharp
 var incidentTypes = await reachClient.GlobalContext.GetIncidentTypes();
 ```
@@ -27,6 +28,7 @@ var incidentTypes = await reachClient.GlobalContext.GetIncidentTypes();
 ```
 
 ### 2. Get Road Types - `GlobalContext.GetRoadTypes()`
+#### Invocation
 ```csharp
 var roadTypes = await reachClient.GlobalContext.GetRoadTypes();
 ```
@@ -42,6 +44,7 @@ var roadTypes = await reachClient.GlobalContext.GetRoadTypes();
 ```
 
 ### 3. Get Countries - `GlobalContext.GetCountries()`
+#### Invocation
 ```csharp
 var countries = await reachClient.GlobalContext.GetCountries();
 ```
@@ -58,7 +61,8 @@ var countries = await reachClient.GlobalContext.GetCountries();
 ```
 
 ### 4. Get Nearby Incidents - `GlobalContext.GetNearbyIncidents(double lat, double lng, byte groupId)`
-GroupId values could be: 1: Security, 2: Public Incidents, 3: Civil Protection, 4: Medical Incidents
+#### Invocation
+* **GroupId** 1: Security, 2: Public Incidents, 3: Civil Protection, 4: Medical Incidents
 ```csharp
 var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051299, -77.064956, 1);
 ```
@@ -77,6 +81,7 @@ var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051
 ```
 
 ### 5. Get Incident Detail - `GlobalContext.GetIncidentDetail(int id)`
+#### Invocation
 ```csharp
 var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
 ```
@@ -108,7 +113,14 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
 ```
 
 ### 6. Verify Suspect Face - `GlobalContext.VerifySuspect(Face face)`
-The Data property of the Face object must contain the byte array of an image (preferably .jpg up to 1024x1024) in Base64String.
+#### Invocation
+```javascript
+{
+  "Data": "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsL...",
+  "HasLocation": false
+}
+```
+* **Data** must contain the byte array of an image (preferably .jpg up to 1024x1024) in Base64String.
 ```csharp
 var suspectVerifyResult = await reachClient.GlobalContext.VerifySuspect(face);
 ```
@@ -119,6 +131,33 @@ var suspectVerifyResult = await reachClient.GlobalContext.VerifySuspect(face);
   "Confidence": 0.53689,
   "IncidentId": 270609
 }
+```
+
+### 7. Register SOS Alert - `GlobalContext.RegisterSOSAlert(SOSAlert alert)`
+#### Invocation
+```javascript
+{
+  "Sender": {
+    "Trusted": true,
+    "FullName": "Reach",
+    "Nickname": "Citizen Security Social Network",
+    "CountryCode": "51",
+    "PhoneNumber": "999999999",
+    "IDN": "11111111"
+  },
+  "CNC": 604,
+  "Location": {
+    "Lat": -12.115032,
+    "Lng": -77.046044,
+    "UTC": "2017-10-26T23:36:29.753"
+  }
+}
+```
+* **Trusted** refers if the person is trusted.
+* **IDN** refers to the Identity Document Number of the person.
+* **CNC** refers to the Country Number Code, check `GlobalContext.GetCountries()`
+```csharp
+await reachClient.GlobalContext.RegisterSOSAlert(alert);
 ```
 
 ## Prerequisites
