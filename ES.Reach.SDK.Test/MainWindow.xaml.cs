@@ -1,5 +1,6 @@
 ﻿using ES.Reach.SDK.Models;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Windows;
 
@@ -65,7 +66,8 @@ namespace ES.Reach.SDK.Test
                 Location = new GPSLocation
                 {
                     Lat = -12.115032,
-                    Lng = -77.046044
+                    Lng = -77.046044,
+                    UTC = DateTime.UtcNow
                 },
                 Sender = new User
                 {
