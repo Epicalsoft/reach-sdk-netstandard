@@ -11,15 +11,16 @@ namespace ES.Reach.SDK
         {
             if (apiException.AppExceptionCode == "Auth_TokenExpired")
                 return new ReachClientException { ErrorCode = ReachExceptionCodes.AuthTokenExpired };
-            return new ReachClientException { ErrorCode = ReachExceptionCodes.Unknown };
+            return new ReachClientException { ErrorCode = ReachExceptionCodes.ServerUnknown };
         }
     }
 
     public enum ReachExceptionCodes
     {
-        Unknown = 0,
+        ServerUnknown = 0,
         Forbidden = 1,
         Unauthorized = 2,
-        AuthTokenExpired = 3
+        AuthTokenExpired = 3,
+        ClientUnknown = 4
     }
 }

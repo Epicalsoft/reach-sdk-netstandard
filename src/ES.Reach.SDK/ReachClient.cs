@@ -2,6 +2,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,9 +12,9 @@ namespace ES.Reach.SDK
     {
         public AuthToken AuthToken;
         public GlobalContext GlobalContext;
-        private readonly string _clientId, _clientSecret, _serviceUrl = "https://reachsosapis.azurewebsites.net";
+        private readonly string _clientId, _clientSecret, _lang, _serviceUrl = "https://reachsosapis.azurewebsites.net";
 
-        public ReachClient(string clientId, string clientSecret)
+        public ReachClient(string clientId, string clientSecret, string lang = "en")
         {
             if (string.IsNullOrWhiteSpace(clientId))
                 throw new ArgumentNullException("clientId");
@@ -23,8 +24,45 @@ namespace ES.Reach.SDK
 
             _clientId = clientId;
             _clientSecret = clientSecret;
+            _lang = lang;
 
             GlobalContext = new GlobalContext(this);
+        }
+
+        internal HttpClient CreateHttpClient()
+        {
+            var httpClient = new HttpClient(new HttpClientHandler { MaxRequestContentBufferSize = 67108864 });
+            httpClient.MaxResponseContentBufferSize = 67108864;
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            if (!string.IsNullOrWhiteSpace(_lang))
+                httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(_lang));
+
+            if (!string.IsNullOrWhiteSpace(AuthToken.Access_Token))
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken.Access_Token);
+            return httpClient;
+        }
+
+        internal async Task<ReachClientException> ProcessUnsuccessResponseMessage(HttpResponseMessage response)
+        {
+            try
+            {
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (string.IsNullOrWhiteSpace(content))
+                        return new ReachClientException { ErrorCode = ReachExceptionCodes.Unauthorized };
+                    else
+                        return ReachClientException.Create(JsonConvert.DeserializeObject<ReachApiException>(content));
+                }
+                else
+                    return new ReachClientException { ErrorCode = ReachExceptionCodes.ServerUnknown };
+            }
+            catch (Exception)
+            {
+                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ClientUnknown };
+            }
         }
 
         private async Task AuthorizeAppAsync()
@@ -47,7 +85,7 @@ namespace ES.Reach.SDK
             else if (response.StatusCode == HttpStatusCode.Forbidden)
                 throw new ReachClientException { ErrorCode = ReachExceptionCodes.Forbidden };
             else
-                throw new ReachClientException { ErrorCode = ReachExceptionCodes.Unknown };
+                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ServerUnknown };
         }
 
         internal async Task<bool> CheckAuthorization()
