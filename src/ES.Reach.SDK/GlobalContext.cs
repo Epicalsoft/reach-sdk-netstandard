@@ -169,5 +169,33 @@ namespace ES.Reach.SDK
         }
 
         #endregion Faces
+
+        #region SOS
+
+        public async Task<SuspectVerifyResult> RegisterSOSAlert(SOSAlert alert)
+        {
+            try
+            {
+                await _reachClient.CheckAuthorization();
+                var httpClient = _reachClient.CreateHttpClient(60);
+                var stringContent = new StringContent(JsonConvert.SerializeObject(alert), Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("https://reachsosapis.azurewebsites.net/v2.0/sos/global/alerts", stringContent);
+
+                if (response.IsSuccessStatusCode)
+                    return JsonConvert.DeserializeObject<SuspectVerifyResult>(await response.Content.ReadAsStringAsync());
+                else
+                    throw await _reachClient.ProcessUnsuccessResponseMessage(response);
+            }
+            catch (ReachClientException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ClientUnknown };
+            }
+        }
+
+        #endregion SOS
     }
 }

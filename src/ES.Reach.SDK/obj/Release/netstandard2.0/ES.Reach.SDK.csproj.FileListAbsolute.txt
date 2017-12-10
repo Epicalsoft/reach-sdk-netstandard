@@ -6,3 +6,4 @@ D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.R
 D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.AssemblyInfo.cs
 D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.dll
 D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.pdb
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.csprojResolveAssemblyReference.cache
