@@ -11,7 +11,7 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ## Usage
 ### 1. Get Incident Types - `GlobalContext.GetIncidentTypes()`
 ```csharp
-var countries = await reachClient.GlobalContext.GetIncidentTypes();
+var incidentTypes = await reachClient.GlobalContext.GetIncidentTypes();
 ```
 #### Response
 ```javascript
@@ -28,7 +28,7 @@ var countries = await reachClient.GlobalContext.GetIncidentTypes();
 
 ### 2. Get Road Types - `GlobalContext.GetRoadTypes()`
 ```csharp
-var countries = await reachClient.GlobalContext.GetRoadTypes();
+var roadTypes = await reachClient.GlobalContext.GetRoadTypes();
 ```
 #### Response
 ```javascript
@@ -107,8 +107,21 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
 }
 ```
 
+### 6. Verify Suspect Face - `GlobalContext.VerifySuspect(Face face)`
+The Data property of the Face object must contain the byte array of an image (preferably .jpg up to 1024x1024) in Base64String.
+```csharp
+var suspectVerifyResult = await reachClient.GlobalContext.VerifySuspect(face);
+```
+#### Response
+```javascript
+{
+  "IsSuspect": true,
+  "Confidence": 0.53689,
+  "IncidentId": 270609
+}
+```
+
 ## Prerequisites
-* NETStandard.Library >= 2.0.0
 * Newtonsoft.Json >= 10.0.3
 
 ## Contact
