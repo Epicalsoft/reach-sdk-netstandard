@@ -141,5 +141,33 @@ namespace ES.Reach.SDK
         }
 
         #endregion Lists
+
+        #region Faces
+
+        public async Task<SuspectVerifyResult> VerifySuspect(Face face)
+        {
+            try
+            {
+                await _reachClient.CheckAuthorization();
+                var httpClient = _reachClient.CreateHttpClient(60);
+                var stringContent = new StringContent(JsonConvert.SerializeObject(face), Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("https://reachsosapis.azurewebsites.net/v2.0/faces/verify", stringContent);
+
+                if (response.IsSuccessStatusCode)
+                    return JsonConvert.DeserializeObject<SuspectVerifyResult>(await response.Content.ReadAsStringAsync());
+                else
+                    throw await _reachClient.ProcessUnsuccessResponseMessage(response);
+            }
+            catch (ReachClientException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ClientUnknown };
+            }
+        }
+
+        #endregion Faces
     }
 }

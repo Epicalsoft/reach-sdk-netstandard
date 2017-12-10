@@ -29,11 +29,11 @@ namespace ES.Reach.SDK
             GlobalContext = new GlobalContext(this);
         }
 
-        internal HttpClient CreateHttpClient()
+        internal HttpClient CreateHttpClient(double timeoutSeconds = 10)
         {
             var httpClient = new HttpClient(new HttpClientHandler { MaxRequestContentBufferSize = 67108864 });
             httpClient.MaxResponseContentBufferSize = 67108864;
-            httpClient.Timeout = TimeSpan.FromSeconds(10);
+            httpClient.Timeout = TimeSpan.FromSeconds(timeoutSeconds);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             if (!string.IsNullOrWhiteSpace(_lang))
