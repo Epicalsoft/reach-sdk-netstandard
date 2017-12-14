@@ -6,13 +6,6 @@ namespace ES.Reach.SDK
     {
         public string ErrorMessage { get; set; }
         public ReachExceptionCodes ErrorCode { get; set; }
-
-        internal static ReachClientException Create(ReachApiException apiException)
-        {
-            if (apiException.AppExceptionCode == "Auth_TokenExpired")
-                return new ReachClientException { ErrorCode = ReachExceptionCodes.AuthTokenExpired };
-            return new ReachClientException { ErrorCode = ReachExceptionCodes.ServerUnknown };
-        }
     }
 
     public enum ReachExceptionCodes

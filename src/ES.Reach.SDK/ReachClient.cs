@@ -12,7 +12,7 @@ namespace ES.Reach.SDK
     {
         public AuthToken AuthToken;
         public GlobalContext GlobalContext;
-        private readonly string _clientId, _clientSecret, _lang, _serviceUrl = "https://reachsosapis.azurewebsites.net";
+        internal readonly string _clientId, _clientSecret, _lang, _serviceUrl = "https://reachsosapis.azurewebsites.net";
 
         public ReachClient(string clientId, string clientSecret, string lang = "en")
         {
@@ -29,7 +29,7 @@ namespace ES.Reach.SDK
             GlobalContext = new GlobalContext(this);
         }
 
-        internal HttpClient CreateHttpClient(double timeoutSeconds = 10)
+        internal HttpClient CreateHttpClient(double timeoutSeconds = 12)
         {
             var httpClient = new HttpClient(new HttpClientHandler { MaxRequestContentBufferSize = 67108864 });
             httpClient.MaxResponseContentBufferSize = 67108864;
@@ -50,11 +50,17 @@ namespace ES.Reach.SDK
             {
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (string.IsNullOrWhiteSpace(content))
-                        return new ReachClientException { ErrorCode = ReachExceptionCodes.Unauthorized };
-                    else
-                        return ReachClientException.Create(JsonConvert.DeserializeObject<ReachApiException>(content));
+                    if (null != response.Content)
+                    {
+                        var apiException = JsonConvert.DeserializeObject<ReachApiException>(await response.Content.ReadAsStringAsync());
+                        if (null != apiException)
+                        {
+                            if (apiException.AppExceptionCode == "Auth_TokenExpired")
+                                return new ReachClientException { ErrorCode = ReachExceptionCodes.AuthTokenExpired };
+                        }
+                    }
+
+                    return new ReachClientException { ErrorCode = ReachExceptionCodes.Unauthorized };
                 }
                 else
                     return new ReachClientException { ErrorCode = ReachExceptionCodes.ServerUnknown };
@@ -88,9 +94,9 @@ namespace ES.Reach.SDK
                 throw new ReachClientException { ErrorCode = ReachExceptionCodes.ServerUnknown };
         }
 
-        internal async Task<bool> CheckAuthorization()
+        internal async Task<bool> CheckAuthorization(bool force)
         {
-            if (null == AuthToken || AuthToken.IsExpired())
+            if (null == AuthToken || AuthToken.IsExpiring() || force)
                 await AuthorizeAppAsync();
             return true;
         }
