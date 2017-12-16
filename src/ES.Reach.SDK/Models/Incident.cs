@@ -19,5 +19,6 @@ namespace ES.Reach.SDK.Models
         public RoadType RoadType { get; set; }
         public IncidentType IncidentType { get; set; }
         public string Nickname { get; set; }
+        public bool Trusted { get; set; }
     }
 }

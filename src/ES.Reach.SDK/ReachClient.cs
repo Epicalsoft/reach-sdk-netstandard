@@ -12,7 +12,8 @@ namespace ES.Reach.SDK
     {
         public AuthToken AuthToken;
         public GlobalContext GlobalContext;
-        internal readonly string _clientId, _clientSecret, _lang, _serviceUrl = "https://reachsosapis.azurewebsites.net";
+        public string Lang { get; set; }
+        internal readonly string _clientId, _clientSecret, _serviceUrl = "https://reachsosapis.azurewebsites.net";
 
         public ReachClient(string clientId, string clientSecret, string lang = "en")
         {
@@ -24,7 +25,7 @@ namespace ES.Reach.SDK
 
             _clientId = clientId;
             _clientSecret = clientSecret;
-            _lang = lang;
+            Lang = lang;
 
             GlobalContext = new GlobalContext(this);
         }
@@ -35,10 +36,8 @@ namespace ES.Reach.SDK
             httpClient.MaxResponseContentBufferSize = 67108864;
             httpClient.Timeout = TimeSpan.FromSeconds(timeoutSeconds);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            if (!string.IsNullOrWhiteSpace(_lang))
-                httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(_lang));
-
+            if (!string.IsNullOrWhiteSpace(Lang))
+                httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(Lang));
             if (!string.IsNullOrWhiteSpace(AuthToken.Access_Token))
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken.Access_Token);
             return httpClient;
