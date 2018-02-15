@@ -1,4 +1,4 @@
-﻿namespace ES.Reach.SDK.Models
+﻿namespace Epicalsoft.Reach.NET.Models
 {
     public class Country
     {

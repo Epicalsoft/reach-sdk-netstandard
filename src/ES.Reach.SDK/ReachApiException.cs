@@ -1,4 +1,4 @@
-﻿namespace ES.Reach.SDK
+﻿namespace Epicalsoft.Reach.NET
 {
     public class ReachApiException
     {

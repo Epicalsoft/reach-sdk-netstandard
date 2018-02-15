@@ -1,4 +1,4 @@
-﻿using ES.Reach.SDK.Models;
+﻿using Epicalsoft.Reach.NET.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ES.Reach.SDK
+namespace Epicalsoft.Reach.NET
 {
     public class GlobalContext
     {

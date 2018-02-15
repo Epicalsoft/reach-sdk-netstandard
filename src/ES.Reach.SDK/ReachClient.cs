@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ES.Reach.SDK
+namespace Epicalsoft.Reach.NET
 {
     public class ReachClient
     {

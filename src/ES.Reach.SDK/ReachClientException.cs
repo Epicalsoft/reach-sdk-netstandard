@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ES.Reach.SDK
+namespace Epicalsoft.Reach.NET
 {
     public class ReachClientException : Exception
     {

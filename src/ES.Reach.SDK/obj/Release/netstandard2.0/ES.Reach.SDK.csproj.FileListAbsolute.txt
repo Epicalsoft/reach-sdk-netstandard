@@ -1,0 +1,18 @@
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\bin\Release\netstandard2.0\ES.Reach.SDK.deps.json
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\bin\Release\netstandard2.0\ES.Reach.SDK.dll
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\bin\Release\netstandard2.0\ES.Reach.SDK.pdb
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.csprojResolveAssemblyReference.cache
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.csproj.CoreCompileInputs.cache
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.AssemblyInfoInputs.cache
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.AssemblyInfo.cs
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.dll
+D:\GitHub\reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.pdb
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\bin\Release\netstandard2.0\ES.Reach.SDK.deps.json
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\bin\Release\netstandard2.0\ES.Reach.SDK.dll
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\bin\Release\netstandard2.0\ES.Reach.SDK.pdb
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.csprojResolveAssemblyReference.cache
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.csproj.CoreCompileInputs.cache
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.AssemblyInfoInputs.cache
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.AssemblyInfo.cs
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.dll
+L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\obj\Release\netstandard2.0\ES.Reach.SDK.pdb
