@@ -1,4 +1,4 @@
-﻿namespace Epicalsoft.Reach.NET.Models
+﻿namespace Epicalsoft.Reach.Api.Client.Net.Models
 {
     public class Country
     {

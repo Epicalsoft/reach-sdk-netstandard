@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicalsoft.Reach.NET", "ES.Reach.SDK\Epicalsoft.Reach.NET.csproj", "{E0A03DA9-3DE8-40B7-854A-FA4390CA73A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicalsoft.Reach.Api.Client.Net", "ES.Reach.SDK\Epicalsoft.Reach.Api.Client.Net.csproj", "{E0A03DA9-3DE8-40B7-854A-FA4390CA73A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

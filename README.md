@@ -8,6 +8,16 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 * Receive your **Client Id** and **Client Secret** and store them in a safe place.
 * Initialize the client using `var reachClient = new ReachClient("[ClientId]", "[ClientSecret]");`
 
+## Installation
+#### Package Manager
+```
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.0.4.19
+```
+#### .NET CLI
+```
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.0.4.19
+```
+
 ## Usage
 ### 1. Get Incident Types - `GlobalContext.GetIncidentTypes()`
 #### Invocation
@@ -112,26 +122,41 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
 }
 ```
 
-### 6. Verify Suspect Face - `GlobalContext.VerifySuspect(Face face)`
+### 6. Verify Faces - `GlobalContext.VerifyFaces(VerifyFacesRequest verifyFacesRequest)`
 #### Invocation
 ```javascript
 {
-  "Data": "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsL...",
-  "HasLocation": false
+  "Data": "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsL..."
 }
 ```
 * **Data** must contain the byte array of an image (preferably .jpg up to 1024x1024) in Base64String.
 ```csharp
-var suspectVerifyResult = await reachClient.GlobalContext.VerifySuspect(face);
+var facesVerificationResult = await reachClient.GlobalContext.VerifyFaces(verifyFacesRequest);
 ```
 #### Response
 ```javascript
 {
-  "IsSuspect": true,
-  "Confidence": 0.53689,
-  "IncidentId": 270609
+  "Status": 1,
+  "Matches": [
+    {
+      "Confidence": 0.6149,
+      "IncidentId": 122018
+    },
+    {
+      "Confidence": 0.5827,
+      "IncidentId": 93710
+    }
+  ],
+  "FacesCount": 3
 }
 ```
+* **Status** may contain the following values:
+  * OK (1) indicates that no errors occurred and at least one result was returned.
+  * ZERO_RESULTS (2)  indicates that the search was successful but returned no results.
+  * OVER_QUERY_LIMIT (3) indicates that you are over your quota.
+  * INVALID_REQUEST(4) indicates that the data value is wrong or missing.
+  * UNKNOWN_ERROR(5)  a server-side error.
+* **FacesCount** refers to the number of detected faces in the image
 
 ### 7. Register SOS Alert - `GlobalContext.RegisterSOSAlert(SOSAlert alert)`
 #### Invocation
@@ -161,7 +186,7 @@ await reachClient.GlobalContext.RegisterSOSAlert(alert);
 ```
 
 ## Prerequisites
-* Newtonsoft.Json >= 10.0.3
+* Newtonsoft.Json >= 11.0.1
 
 ## Contact
 If you need help installing or using the library, please contact Reach Support at hello@epicalsoft.com Reach's Support staff are well-versed in all of the Reach Libraries, and usually reply within 24 hours.

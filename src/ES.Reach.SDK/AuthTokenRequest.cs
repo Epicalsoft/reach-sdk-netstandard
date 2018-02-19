@@ -1,4 +1,4 @@
-﻿namespace Epicalsoft.Reach.NET
+﻿namespace Epicalsoft.Reach.Api.Client.Net
 {
     internal class AuthTokenRequest
     {

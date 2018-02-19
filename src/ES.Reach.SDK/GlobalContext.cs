@@ -1,4 +1,4 @@
-﻿using Epicalsoft.Reach.NET.Models;
+﻿using Epicalsoft.Reach.Api.Client.Net.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epicalsoft.Reach.NET
+namespace Epicalsoft.Reach.Api.Client.Net
 {
     public class GlobalContext
     {
@@ -179,29 +179,29 @@ namespace Epicalsoft.Reach.NET
 
         #region Faces
 
-        public async Task<SuspectVerifyResult> VerifySuspect(Face face)
+        public async Task<FacesVerificationResult> VerifyFaces(VerifyFacesRequest verifyFacesRequest)
         {
-            return await VerifySuspect(false, face);
+            return await VerifyFaces(false, verifyFacesRequest);
         }
 
-        private async Task<SuspectVerifyResult> VerifySuspect(bool force, Face face)
+        private async Task<FacesVerificationResult> VerifyFaces(bool force, VerifyFacesRequest verifyFacesRequest)
         {
             try
             {
                 await _reachClient.CheckAuthorization(force);
                 var httpClient = _reachClient.CreateHttpClient(60);
-                var stringContent = new StringContent(JsonConvert.SerializeObject(face), Encoding.UTF8, "application/json");
+                var stringContent = new StringContent(JsonConvert.SerializeObject(verifyFacesRequest), Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync(string.Format("{0}/v2.0/faces/verify", _reachClient._serviceUrl), stringContent);
 
                 if (response.IsSuccessStatusCode)
-                    return JsonConvert.DeserializeObject<SuspectVerifyResult>(await response.Content.ReadAsStringAsync());
+                    return JsonConvert.DeserializeObject<FacesVerificationResult>(await response.Content.ReadAsStringAsync());
                 else
                     throw await _reachClient.ProcessUnsuccessResponseMessage(response);
             }
             catch (ReachClientException ex)
             {
                 if (ex.ErrorCode == ReachExceptionCodes.AuthTokenExpired)
-                    return await VerifySuspect(true, face);
+                    return await VerifyFaces(true, verifyFacesRequest);
                 throw;
             }
             catch (Exception)
@@ -214,12 +214,12 @@ namespace Epicalsoft.Reach.NET
 
         #region SOS
 
-        public async Task<SuspectVerifyResult> RegisterSOSAlert(SOSAlert alert)
+        public async Task RegisterSOSAlert(SOSAlert alert)
         {
-            return await RegisterSOSAlert(false, alert);
+            await RegisterSOSAlert(false, alert);
         }
 
-        private async Task<SuspectVerifyResult> RegisterSOSAlert(bool force, SOSAlert alert)
+        private async Task RegisterSOSAlert(bool force, SOSAlert alert)
         {
             try
             {
@@ -228,15 +228,13 @@ namespace Epicalsoft.Reach.NET
                 var stringContent = new StringContent(JsonConvert.SerializeObject(alert), Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync(string.Format("{0}/v2.0/sos/global/alerts", _reachClient._serviceUrl), stringContent);
 
-                if (response.IsSuccessStatusCode)
-                    return JsonConvert.DeserializeObject<SuspectVerifyResult>(await response.Content.ReadAsStringAsync());
-                else
+                if (!response.IsSuccessStatusCode)
                     throw await _reachClient.ProcessUnsuccessResponseMessage(response);
             }
             catch (ReachClientException ex)
             {
                 if (ex.ErrorCode == ReachExceptionCodes.AuthTokenExpired)
-                    return await RegisterSOSAlert(true, alert);
+                    await RegisterSOSAlert(true, alert);
                 throw;
             }
             catch (Exception)

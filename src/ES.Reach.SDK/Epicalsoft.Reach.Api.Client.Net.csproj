@@ -2,23 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Epicalsoft.Reach.NET</PackageId>
+    <PackageId>Epicalsoft.Reach.Api.Client.Net</PackageId>
     <Authors>Epicalsoft</Authors>
     <Company>Epicalsoft</Company>
-    <Product>Reach SDK for .NET Standard</Product>
-    <Description>The Reach SDK allows you to integrate Reach into your .NET Standard libraries.</Description>
+    <Product>Reach Api Client SDK for .NET Standard</Product>
+    <Description>The Reach Api Client SDK allows you to integrate Reach into your .NET Standard libraries.</Description>
     <Copyright>Epicalsoft</Copyright>
     <PackageProjectUrl>https://github.com/Epicalsoft/reach-sdk-netstandard</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Epicalsoft/reach-sdk-netstandard/blob/master/LICENSE.md</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/Epicalsoft/reach-sdk-netstandard</RepositoryUrl>
     <PackageIconUrl>https://reachsos.com/assets/favicon.png</PackageIconUrl>
-    <AssemblyName>Epicalsoft.Reach.NET</AssemblyName>
-    <RootNamespace>Epicalsoft.Reach.NET</RootNamespace>
-    <Version>1.0.1.16</Version>
+    <AssemblyName>Epicalsoft.Reach.Api.Client.Net</AssemblyName>
+    <RootNamespace>Epicalsoft.Reach.Api.Client.Net</RootNamespace>
+    <Version>1.0.4.19</Version>
+    <AssemblyVersion>1.0.4.19</AssemblyVersion>
+    <FileVersion>1.0.4.19</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
   </ItemGroup>
 
 </Project>
