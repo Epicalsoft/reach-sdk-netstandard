@@ -11,11 +11,11 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.0.4.19
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.0.5.20
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.0.4.19
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.0.5.20
 ```
 
 ## Usage
