@@ -109,7 +109,7 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
   "HasEvidence": false,
   "HighlightsCount": 27,
   "CommentsCount": 6,
-  "InterventionsCount": 9,
+  "AlertedCount": 9,
   "RoadType": {
     "Code": 0,
     "Name": "Public road"

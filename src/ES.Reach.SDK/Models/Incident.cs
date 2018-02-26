@@ -15,7 +15,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Models
         public bool HasEvidence { get; set; }
         public int HighlightsCount { get; set; }
         public int CommentsCount { get; set; }
-        public int InterventionsCount { get; set; }
+        public int AlertedCount { get; set; }
         public RoadType RoadType { get; set; }
         public IncidentType IncidentType { get; set; }
         public string Nickname { get; set; }
