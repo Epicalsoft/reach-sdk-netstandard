@@ -12,7 +12,9 @@ namespace Epicalsoft.Reach.Api.Client.Net
     {
         public AuthToken AuthToken;
         public GlobalContext GlobalContext;
-        public string Lang { get; set; }
+        public string Lang { get; }
+        private HttpClient _httpClient;
+        public HttpClient HttpClient { get { if (null == _httpClient) CreateHttpClient(); return _httpClient; } private set { _httpClient = value; } }
         internal readonly string _clientId, _clientSecret, _serviceUrl = "https://reachsosapis.azurewebsites.net";
 
         public ReachClient(string clientId, string clientSecret, string lang = "en")
@@ -30,17 +32,13 @@ namespace Epicalsoft.Reach.Api.Client.Net
             GlobalContext = new GlobalContext(this);
         }
 
-        internal HttpClient CreateHttpClient(double timeoutSeconds = 12)
+        internal void CreateHttpClient()
         {
-            var httpClient = new HttpClient(new HttpClientHandler { MaxRequestContentBufferSize = 67108864 });
-            httpClient.MaxResponseContentBufferSize = 67108864;
-            httpClient.Timeout = TimeSpan.FromSeconds(timeoutSeconds);
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            if (!string.IsNullOrWhiteSpace(Lang))
-                httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(Lang));
-            if (!string.IsNullOrWhiteSpace(AuthToken.Access_Token))
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken.Access_Token);
-            return httpClient;
+            _httpClient = new HttpClient(new HttpClientHandler { MaxRequestContentBufferSize = 67108864 });
+            _httpClient.MaxResponseContentBufferSize = 67108864;
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "HttpClient");
+            _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(Lang));
         }
 
         internal async Task<ReachClientException> ProcessUnsuccessResponseMessage(HttpResponseMessage response)
@@ -72,20 +70,19 @@ namespace Epicalsoft.Reach.Api.Client.Net
 
         private async Task AuthorizeAppAsync()
         {
-            var httpClient = new HttpClient();
-
             var tokenRequest = new AuthTokenRequest();
             tokenRequest.Grant_Type = "client_credentials";
             tokenRequest.Client_Id = _clientId;
             tokenRequest.Client_Secret = _clientSecret;
 
-            var response = await httpClient.PostAsync(string.Format("{0}/api/token", _serviceUrl),
+            var response = await HttpClient.PostAsync(string.Format("{0}/api/token", _serviceUrl),
                 new StringContent(JsonConvert.SerializeObject(tokenRequest), Encoding.UTF8, "application/json"));
 
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
                 AuthToken = JsonConvert.DeserializeObject<AuthToken>(content);
+                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken.Access_Token);
             }
             else if (response.StatusCode == HttpStatusCode.Forbidden)
                 throw new ReachClientException { ErrorCode = ReachExceptionCodes.Forbidden };

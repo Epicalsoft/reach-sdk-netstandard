@@ -11,11 +11,11 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.0.5.20
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.0.6.21
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.0.5.20
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.0.6.21
 ```
 
 ## Usage
@@ -186,7 +186,8 @@ await reachClient.GlobalContext.RegisterSOSAlert(alert);
 ```
 
 ## Prerequisites
-* Newtonsoft.Json >= 11.0.1
+* NETStandard.Library >= 2.0.1
+* Newtonsoft.Json >= 11.0.2
 
 ## Contact
 If you need help installing or using the library, please contact Reach Support at hello@epicalsoft.com Reach's Support staff are well-versed in all of the Reach Libraries, and usually reply within 24 hours.

@@ -29,10 +29,10 @@ namespace Epicalsoft.Reach.Api.Client.Net
             try
             {
                 await _reachClient.CheckAuthorization(force);
-                var httpClient = _reachClient.CreateHttpClient();
+
                 var body = JsonConvert.SerializeObject(new { Lat = lat, Lng = lng, GroupId = groupId });
                 var stringContent = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync(string.Format("{0}/v2.0/incidents/global/nearby", _reachClient._serviceUrl), stringContent);
+                var response = await _reachClient.HttpClient.PostAsync(string.Format("{0}/v2.0/incidents/global/nearby", _reachClient._serviceUrl), stringContent);
 
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<IncidentSeed>>(await response.Content.ReadAsStringAsync());
@@ -61,9 +61,8 @@ namespace Epicalsoft.Reach.Api.Client.Net
             try
             {
                 await _reachClient.CheckAuthorization(force);
-                var httpClient = _reachClient.CreateHttpClient();
 
-                var response = await httpClient.GetAsync(string.Format("{0}/v2.0/incidents/global/find?id={1}", _reachClient._serviceUrl, id));
+                var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v2.0/incidents/global/find?id={1}", _reachClient._serviceUrl, id));
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<Incident>(await response.Content.ReadAsStringAsync());
                 else
@@ -95,9 +94,8 @@ namespace Epicalsoft.Reach.Api.Client.Net
             try
             {
                 await _reachClient.CheckAuthorization(force);
-                var httpClient = _reachClient.CreateHttpClient();
-                var response = await httpClient.GetAsync(string.Format("{0}/v2.0/lists/incidenttypes", _reachClient._serviceUrl));
 
+                var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v2.0/lists/incidenttypes", _reachClient._serviceUrl));
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<IncidentType>>(await response.Content.ReadAsStringAsync());
                 else
@@ -125,8 +123,8 @@ namespace Epicalsoft.Reach.Api.Client.Net
             try
             {
                 await _reachClient.CheckAuthorization(force);
-                var httpClient = _reachClient.CreateHttpClient();
-                var response = await httpClient.GetAsync(string.Format("{0}/v2.0/lists/roadtypes", _reachClient._serviceUrl));
+
+                var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v2.0/lists/roadtypes", _reachClient._serviceUrl));
 
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<RoadType>>(await response.Content.ReadAsStringAsync());
@@ -155,8 +153,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
             try
             {
                 await _reachClient.CheckAuthorization(force);
-                var httpClient = _reachClient.CreateHttpClient();
-                var response = await httpClient.GetAsync(string.Format("{0}/v2.0/lists/countries", _reachClient._serviceUrl));
+                var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v2.0/lists/countries", _reachClient._serviceUrl));
 
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<Country>>(await response.Content.ReadAsStringAsync());
@@ -189,9 +186,8 @@ namespace Epicalsoft.Reach.Api.Client.Net
             try
             {
                 await _reachClient.CheckAuthorization(force);
-                var httpClient = _reachClient.CreateHttpClient(60);
                 var stringContent = new StringContent(JsonConvert.SerializeObject(verifyFacesRequest), Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync(string.Format("{0}/v2.0/faces/verify", _reachClient._serviceUrl), stringContent);
+                var response = await _reachClient.HttpClient.PostAsync(string.Format("{0}/v2.0/faces/verify", _reachClient._serviceUrl), stringContent);
 
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<FacesVerificationResult>(await response.Content.ReadAsStringAsync());
@@ -224,9 +220,8 @@ namespace Epicalsoft.Reach.Api.Client.Net
             try
             {
                 await _reachClient.CheckAuthorization(force);
-                var httpClient = _reachClient.CreateHttpClient(30);
                 var stringContent = new StringContent(JsonConvert.SerializeObject(alert), Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync(string.Format("{0}/v2.0/sos/global/alerts", _reachClient._serviceUrl), stringContent);
+                var response = await _reachClient.HttpClient.PostAsync(string.Format("{0}/v2.0/sos/global/alerts", _reachClient._serviceUrl), stringContent);
 
                 if (!response.IsSuccessStatusCode)
                     throw await _reachClient.ProcessUnsuccessResponseMessage(response);

@@ -14,13 +14,13 @@
     <PackageIconUrl>https://reachsos.com/assets/favicon.png</PackageIconUrl>
     <AssemblyName>Epicalsoft.Reach.Api.Client.Net</AssemblyName>
     <RootNamespace>Epicalsoft.Reach.Api.Client.Net</RootNamespace>
-    <Version>1.0.5.20</Version>
-    <AssemblyVersion>1.0.5.20</AssemblyVersion>
-    <FileVersion>1.0.5.20</FileVersion>
+    <Version>1.0.6.21</Version>
+    <AssemblyVersion>1.0.6.21</AssemblyVersion>
+    <FileVersion>1.0.6.21</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
 </Project>
