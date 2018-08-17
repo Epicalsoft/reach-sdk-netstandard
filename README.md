@@ -11,11 +11,11 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.0.6.21
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.0.7.22
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.0.6.21
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.0.7.22
 ```
 
 ## Usage
@@ -98,14 +98,14 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
 #### Response
 ```javascript
 {
-  "Id": 270609,
+  "Id": 18052014,
   "UserId": 1630,
   "Description": "Something is happening! Winter is coming!",
   "Thumbnail": null,
-  "Abstract": "Something is happening! Winter is...",
+  "Abstract": "Something is happening! Winter is... - https://reachsos.com/incidents/details/18052014",
   "Latitude": -12.0697313823956,
   "Longitude": -77.053617797792,
-  "UTC": "2017-10-26T23:36:29.753",
+  "UTC": "2018-08-17T23:36:29.753",
   "HasEvidence": false,
   "HighlightsCount": 27,
   "CommentsCount": 6,
@@ -118,7 +118,9 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
     "Code": 103,
     "Name": "Kidnapping"
   },
-  "Nickname": "Tsaheylu"
+  "Nickname": "Atreyu",
+  "Trusted": true,
+  "Verified": false
 }
 ```
 

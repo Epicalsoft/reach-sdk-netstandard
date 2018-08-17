@@ -20,5 +20,6 @@ namespace Epicalsoft.Reach.Api.Client.Net.Models
         public IncidentType IncidentType { get; set; }
         public string Nickname { get; set; }
         public bool Trusted { get; set; }
+        public bool Verified { get; set; }
     }
 }

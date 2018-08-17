@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Epicalsoft.Reach.Api.Client.Net</id>
+    <version>1.0.7.22</version>
+    <authors>Epicalsoft</authors>
+    <owners>Epicalsoft</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Epicalsoft/reach-sdk-netstandard/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/Epicalsoft/reach-sdk-netstandard</projectUrl>
+    <iconUrl>https://reachsos.com/assets/favicon.png</iconUrl>
+    <description>The Reach Api Client SDK allows you to integrate Reach into your .NET Standard libraries.</description>
+    <copyright>Epicalsoft</copyright>
+    <repository url="https://github.com/Epicalsoft/reach-sdk-netstandard" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Newtonsoft.Json" version="11.0.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="L:\OneDrive - Epicalsoft\Solutions\[2018] reach-sdk-netstandard\src\ES.Reach.SDK\bin\Release\netstandard2.0\Epicalsoft.Reach.Api.Client.Net.dll" target="lib\netstandard2.0\Epicalsoft.Reach.Api.Client.Net.dll" />
+  </files>
+</package>
