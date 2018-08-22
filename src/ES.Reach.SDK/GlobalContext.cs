@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,6 +66,8 @@ namespace Epicalsoft.Reach.Api.Client.Net
                 var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v2.0/incidents/global/find?id={1}", _reachClient._serviceUrl, id));
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<Incident>(await response.Content.ReadAsStringAsync());
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                    return null;
                 else
                     throw await _reachClient.ProcessUnsuccessResponseMessage(response);
             }

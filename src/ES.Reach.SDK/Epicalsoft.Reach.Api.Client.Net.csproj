@@ -14,7 +14,7 @@
     <PackageIconUrl>https://reachsos.com/assets/favicon.png</PackageIconUrl>
     <AssemblyName>Epicalsoft.Reach.Api.Client.Net</AssemblyName>
     <RootNamespace>Epicalsoft.Reach.Api.Client.Net</RootNamespace>
-    <Version>1.0.7.22</Version>
+    <Version>1.0.8.23</Version>
     <AssemblyVersion>1.0.7.22</AssemblyVersion>
     <FileVersion>1.0.7.22</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

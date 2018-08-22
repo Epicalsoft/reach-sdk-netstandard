@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("The Reach Api Client SDK allows you to integrate Reach into your .NET Standard li" +
     "braries.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.7.22")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.7.22")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.8.23")]
 [assembly: System.Reflection.AssemblyProductAttribute("Reach Api Client SDK for .NET Standard")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Epicalsoft.Reach.Api.Client.Net")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.7.22")]
