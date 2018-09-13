@@ -17,7 +17,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Models
         public int CommentsCount { get; set; }
         public int AlertedCount { get; set; }
         public RoadType RoadType { get; set; }
-        public IncidentType IncidentType { get; set; }
+        public Classification Classification { get; set; }
         public string Nickname { get; set; }
         public bool Trusted { get; set; }
         public bool Verified { get; set; }

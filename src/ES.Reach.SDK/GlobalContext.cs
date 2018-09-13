@@ -33,7 +33,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
 
                 var body = JsonConvert.SerializeObject(new { Lat = lat, Lng = lng, GroupId = groupId });
                 var stringContent = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = await _reachClient.HttpClient.PostAsync(string.Format("{0}/v2.0/incidents/global/nearby", _reachClient._serviceUrl), stringContent);
+                var response = await _reachClient.HttpClient.PostAsync(string.Format("{0}/v3.0/incidents/global/nearby", _reachClient._serviceUrl), stringContent);
 
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<IncidentSeed>>(await response.Content.ReadAsStringAsync());
@@ -63,7 +63,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
             {
                 await _reachClient.CheckAuthorization(force);
 
-                var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v2.0/incidents/global/find?id={1}", _reachClient._serviceUrl, id));
+                var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v3.0/incidents/global/find?id={1}", _reachClient._serviceUrl, id));
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<Incident>(await response.Content.ReadAsStringAsync());
                 else if (response.StatusCode == HttpStatusCode.NotFound)
@@ -87,27 +87,27 @@ namespace Epicalsoft.Reach.Api.Client.Net
 
         #region Lists
 
-        public async Task<List<IncidentType>> GetIncidentTypes()
+        public async Task<List<Classification>> GetClassifications()
         {
-            return await GetIncidentTypes(false);
+            return await GetClassifications(false);
         }
 
-        private async Task<List<IncidentType>> GetIncidentTypes(bool force)
+        private async Task<List<Classification>> GetClassifications(bool force)
         {
             try
             {
                 await _reachClient.CheckAuthorization(force);
 
-                var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v2.0/lists/incidenttypes", _reachClient._serviceUrl));
+                var response = await _reachClient.HttpClient.GetAsync(string.Format("{0}/v3.0/lists/classifications", _reachClient._serviceUrl));
                 if (response.IsSuccessStatusCode)
-                    return JsonConvert.DeserializeObject<List<IncidentType>>(await response.Content.ReadAsStringAsync());
+                    return JsonConvert.DeserializeObject<List<Classification>>(await response.Content.ReadAsStringAsync());
                 else
                     throw await _reachClient.ProcessUnsuccessResponseMessage(response);
             }
             catch (ReachClientException ex)
             {
                 if (ex.ErrorCode == ReachExceptionCodes.AuthTokenExpired)
-                    return await GetIncidentTypes(true);
+                    return await GetClassifications(true);
                 throw;
             }
             catch (Exception)

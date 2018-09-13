@@ -11,27 +11,26 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.0.8.23
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.9.24
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.0.8.23
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.9.24
 ```
 
 ## Usage
-### 1. Get Incident Types - `GlobalContext.GetIncidentTypes()`
+### 1. Get Classifications - `GlobalContext.GetClassifications()`
 #### Invocation
 ```csharp
-var incidentTypes = await reachClient.GlobalContext.GetIncidentTypes();
+var classifications = await reachClient.GlobalContext.GetClassifications();
 ```
 #### Response
 ```javascript
 [
   {
-    "Code": 118,
-    "Name": "Abuse of authority",
-    "GroupId": 1,
-    "IconUrl": "https://reachsos.com/assets/icons/incidents/ic_abuso.png"
+    "Code": "30030101",
+    "Title": "Robo a personas",
+    "Lang": "es"
   },
   ...
 ]
@@ -81,7 +80,7 @@ var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051
 [
   {
     "Id": 270609,
-    "Type": 121,
+    "Kind": "30030101",
     "Lat": -12.0697313823956,
     "Lng": -77.053617797792,
     "UTC": "2017-10-26T23:36:29.753"
@@ -114,9 +113,10 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
     "Code": 0,
     "Name": "Public road"
   },
-  "IncidentType": {
-    "Code": 103,
-    "Name": "Kidnapping"
+  "Classification": {
+    "Code": "30030101",
+    "Name": "Robo a personas",
+    "Lang": "es"
   },
   "Nickname": "Atreyu",
   "Trusted": true,
