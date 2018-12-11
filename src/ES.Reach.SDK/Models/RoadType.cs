@@ -2,7 +2,7 @@
 {
     public class RoadType
     {
-        public int Code { get; set; }
+        public short Code { get; set; }
         public string Name { get; set; }
     }
 }

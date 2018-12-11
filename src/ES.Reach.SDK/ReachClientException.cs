@@ -14,6 +14,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
         Forbidden = 1,
         Unauthorized = 2,
         AuthTokenExpired = 3,
-        ClientUnknown = 4
+        ClientUnknown = 4,
+        ConnectionError = 5
     }
 }

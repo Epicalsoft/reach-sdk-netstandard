@@ -6,7 +6,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
     {
         public long Expires_At { get; set; }
         public string Access_Token { get; set; }
-
+        public string Token_Type { get; set; }
         public bool IsExpiring()
         {
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

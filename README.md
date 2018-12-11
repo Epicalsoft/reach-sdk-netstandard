@@ -6,16 +6,16 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ## Getting Started
 * Contact [hello@epicalsoft.com](mailto:hello@epicalsoft.com) to create your Reach app.
 * Receive your **Client Id** and **Client Secret** and store them in a safe place.
-* Initialize the client using `var reachClient = new ReachClient("[ClientId]", "[ClientSecret]");`
+* Initialize the client using `var reachClient = new ReachClient("[ClientId]", "[ClientSecret]", AcceptLanguage.English);`
 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.9.24
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.10.41
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.9.24
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.10.41
 ```
 
 ## Usage
@@ -69,17 +69,17 @@ var countries = await reachClient.GlobalContext.GetCountries();
 ]
 ```
 
-### 4. Get Nearby Incidents - `GlobalContext.GetNearbyIncidents(double lat, double lng, byte groupId)`
+### 4. Get Nearby Incidents - `GlobalContext.GetNearbyIncidents(double lat, double lng, ClassificationGroup group)`
 #### Invocation
-* **GroupId** 1: Security, 2: Public Incidents, 3: Civil Protection, 4: Medical Incidents
+* **ClassificationGroup** Medical Incidents, Public Protection, Human Security, Public Administration
 ```csharp
-var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051299, -77.064956, 1);
+var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051299, -77.064956, ClassificationGroup.HumanSecurity);
 ```
 #### Response
 ```javascript
 [
   {
-    "Id": 270609,
+    "Id": 18052014,
     "Kind": "30030101",
     "Lat": -12.0697313823956,
     "Lng": -77.053617797792,
@@ -92,7 +92,7 @@ var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051
 ### 5. Get Incident Detail - `GlobalContext.GetIncidentDetail(int id)`
 #### Invocation
 ```csharp
-var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
+var incident = await reachClient.GlobalContext.GetIncidentDetail(18052014);
 ```
 #### Response
 ```javascript
@@ -106,17 +106,17 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(270609);
   "Longitude": -77.053617797792,
   "UTC": "2018-08-17T23:36:29.753",
   "HasEvidence": false,
-  "HighlightsCount": 27,
-  "CommentsCount": 6,
-  "AlertedCount": 9,
+  "HighlightsCount": 11,
+  "CommentsCount": 7,
+  "AlertedCount": 13,
   "RoadType": {
     "Code": 0,
     "Name": "Public road"
   },
   "Classification": {
     "Code": "30030101",
-    "Name": "Robo a personas",
-    "Lang": "es"
+    "Name": "Robbery to people",
+    "Lang": "en"
   },
   "Nickname": "Atreyu",
   "Trusted": true,
@@ -188,8 +188,9 @@ await reachClient.GlobalContext.RegisterSOSAlert(alert);
 ```
 
 ## Prerequisites
-* NETStandard.Library >= 2.0.3
-* Newtonsoft.Json >= 11.0.2
+* NETStandard.Library (>= 2.0.3)
+* Newtonsoft.Json (>= 12.0.1)
+* System.Drawing.Common (>= 4.5.1)
 
 ## Contact
 If you need help installing or using the library, please contact Reach Support at hello@epicalsoft.com Reach's Support staff are well-versed in all of the Reach Libraries, and usually reply within 24 hours.
@@ -198,6 +199,6 @@ Please report any bugs as issues.
 Follow @reachsos on Twitter and /reachsos on Facebook for updates.
 
 ## License
-Copyright 2017 Epicalsoft, Inc.
+Copyright 2018 Epicalsoft Corporation.
 
 Licensed under the Apache License: http://www.apache.org/licenses/LICENSE-2.0
