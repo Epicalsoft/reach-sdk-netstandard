@@ -36,7 +36,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Models
             Address = address;
             Lat = latitude;
             Lng = longitude;
-            CNC = country.CNC;
+            CNC = country.NumericCode;
             UTC = factsUTC;
 
             Evidences = new List<EvidencePost>();

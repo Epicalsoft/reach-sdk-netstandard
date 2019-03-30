@@ -1,7 +1,7 @@
-﻿using Epicalsoft.Reach.Api.Client.Net.Contexts;
-using Epicalsoft.Reach.Api.Client.Net.Models;
+﻿using Epicalsoft.Reach.Api.Client.Net.Utils;
 using Newtonsoft.Json;
 using System;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -10,18 +10,15 @@ using System.Threading.Tasks;
 
 namespace Epicalsoft.Reach.Api.Client.Net
 {
-    public class ReachClient
+    public static class ReachClient
     {
-        public string Endpoint = "https://reachsosapis.azurewebsites.net";
-        public AuthToken AuthToken { get; private set; }
-        public GlobalContext GlobalContext;
-        public UserContext UserContext;
-        public AcceptLanguage Lang { get; }
-        private HttpClient _httpClient;
-        public HttpClient HttpClient { get { if (null == _httpClient) CreateHttpClient(); return _httpClient; } }
-        private readonly string _clientId, _clientSecret, _userkey, _grant_type;
+        public const string Endpoint = "https://reachsosapis.azurewebsites.net";
+        public static AuthToken AuthToken { get; private set; }
+        private static HttpClient _httpClient;
+        internal static HttpClient HttpClient { get { if (null == _httpClient) CreateHttpClient(); return _httpClient; } }
+        private static string _clientId, _clientSecret, _userkey, _grant_type;
 
-        public ReachClient(string clientId, string clientSecret, AcceptLanguage lang = AcceptLanguage.English)
+        public static void Init(string clientId, string clientSecret)
         {
             if (string.IsNullOrWhiteSpace(clientId))
                 throw new ArgumentNullException("clientId");
@@ -32,49 +29,35 @@ namespace Epicalsoft.Reach.Api.Client.Net
             _grant_type = "client_credentials";
             _clientId = clientId;
             _clientSecret = clientSecret;
-            Lang = lang;
-
-            GlobalContext = new GlobalContext(this);
         }
 
-        public ReachClient(string userkey, AcceptLanguage lang = AcceptLanguage.English)
+        public static void Init(string userkey)
         {
             if (string.IsNullOrWhiteSpace(userkey))
                 throw new ArgumentNullException("userkey");
 
             _grant_type = "user_key";
             _userkey = userkey;
-            Lang = lang;
-
-            GlobalContext = new GlobalContext(this);
-            UserContext = new UserContext(this);
         }
 
-        private string GetLangDescription(AcceptLanguage lang)
+        public static void ClearLocalCache()
         {
-            switch (lang)
-            {
-                case AcceptLanguage.English:
-                    return "en";
-
-                case AcceptLanguage.Spanish:
-                    return "es";
-
-                default:
-                    return "en";
-            }
+            LocalCachingProvider.ClearLocalCache();
         }
 
-        internal void CreateHttpClient()
+        internal static void CreateHttpClient()
         {
+            if (string.IsNullOrWhiteSpace(_grant_type))
+                throw new ReachClientException(ReachExceptionCodes.ClientError, "ReachClient.Init() has been not called.");
+
             _httpClient = new HttpClient(new HttpClientHandler { MaxRequestContentBufferSize = 67108864 });
             _httpClient.MaxResponseContentBufferSize = 67108864;
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "HttpClient");
-            _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(GetLangDescription(Lang)));
+            _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(CultureInfo.CurrentCulture.Name));
         }
 
-        private async Task AuthorizeAppAsync()
+        private async static Task AuthorizeAppAsync()
         {
             var tokenRequest = new AuthTokenRequest();
             HttpResponseMessage response = null;
@@ -95,7 +78,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
                     new StringContent(JsonConvert.SerializeObject(tokenRequest), Encoding.UTF8, "application/json"));
             }
             else
-                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ClientUnknown };
+                throw new ReachClientException(ReachExceptionCodes.ClientError, "ReachClient.Init() has been not called.");
 
             if (response.IsSuccessStatusCode)
             {
@@ -104,12 +87,12 @@ namespace Epicalsoft.Reach.Api.Client.Net
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthToken.Token_Type, AuthToken.Access_Token);
             }
             else if (response.StatusCode == HttpStatusCode.Forbidden)
-                throw new ReachClientException { ErrorCode = ReachExceptionCodes.Forbidden };
+                throw new ReachClientException(ReachExceptionCodes.Forbidden);
             else
-                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ServerUnknown };
+                throw new ReachClientException(ReachExceptionCodes.ServerUnknown);
         }
 
-        internal async Task<bool> CheckAuthorization(bool force)
+        internal async static Task<bool> CheckAuthorization(bool force)
         {
             if (null == AuthToken || AuthToken.IsExpiring() || force)
                 await AuthorizeAppAsync();
@@ -118,7 +101,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
 
         #region Error Handling
 
-        internal async Task<ReachClientException> ProcessUnsuccessResponseMessage(HttpResponseMessage response)
+        internal async static Task<ReachClientException> ProcessUnsuccessResponseMessage(HttpResponseMessage response)
         {
             try
             {
@@ -130,37 +113,35 @@ namespace Epicalsoft.Reach.Api.Client.Net
                         if (null != apiException)
                         {
                             if (apiException.AppExceptionCode == "Auth_TokenExpired")
-                                return new ReachClientException { ErrorCode = ReachExceptionCodes.AuthTokenExpired };
+                                return new ReachClientException(ReachExceptionCodes.AuthTokenExpired);
                         }
                     }
 
-                    return new ReachClientException { ErrorCode = ReachExceptionCodes.Unauthorized };
+                    return new ReachClientException(ReachExceptionCodes.Unauthorized);
                 }
                 else
-                    return new ReachClientException { ErrorCode = ReachExceptionCodes.ServerUnknown };
+                    return new ReachClientException(ReachExceptionCodes.ServerUnknown);
             }
             catch (Exception)
             {
-                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ClientUnknown };
+                throw new ReachClientException(ReachExceptionCodes.ClientUnknown);
             }
         }
 
-        internal async Task<T> CatchException<T>(Exception ex, Task<T> task)
+        internal async static Task<T> CatchException<T>(Exception ex, Func<Task<T>> func)
         {
             if (ex is ReachClientException)
             {
-                if (((ReachClientException)ex).ErrorCode == ReachExceptionCodes.AuthTokenExpired)
-                    return await task;
+                if (((ReachClientException)ex).ErrorCode == ReachExceptionCodes.ClientUnknown)
+                    throw new ReachClientException(ReachExceptionCodes.ClientUnknown, ex);
+                else if (((ReachClientException)ex).ErrorCode == ReachExceptionCodes.AuthTokenExpired)
+                    return await func();
                 throw ex;
             }
             else if (ex is HttpRequestException)
-            {
-                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ConnectionError };
-            }
+                throw new ReachClientException(ReachExceptionCodes.ConnectionError);
             else
-            {
-                throw new ReachClientException { ErrorCode = ReachExceptionCodes.ClientUnknown };
-            }
+                throw new ReachClientException(ReachExceptionCodes.ClientUnknown, ex);
         }
 
         #endregion Error Handling

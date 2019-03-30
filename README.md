@@ -6,76 +6,107 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ## Getting Started
 * Contact [hello@epicalsoft.com](mailto:hello@epicalsoft.com) to create your Reach app.
 * Receive your **Client Id** and **Client Secret** and store them in a safe place.
-* Initialize the client using `var reachClient = new ReachClient("[ClientId]", "[ClientSecret]", AcceptLanguage.English);`
+* Initialize the client using
+
+```csharp
+ReachClient.Init("[clientId]", "[clientSecret]");
+```
+or
+```csharp
+ReachClient.Init("[userKey]");
+```
 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.10.41
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.12.49
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.10.41
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.12.49
 ```
 
 ## Usage
-### 1. Get Classifications - `GlobalContext.GetClassifications()`
+### 1. `GlobalScopeManager.GetClassifications()`
 #### Invocation
 ```csharp
-var classifications = await reachClient.GlobalContext.GetClassifications();
+var classifications = await GlobalScopeManager.Instance.GetClassifications();
 ```
-#### Response
+#### Response example
 ```javascript
 [
   {
-    "Code": "30030101",
-    "Title": "Robo a personas",
-    "Lang": "es"
+    "Code": "300301",
+    "Title": "Theft",
+    "Lang": "en"
   },
-  ...
+  {
+    "Code": "30030101",
+    "Title": "Robbery to people",
+    "Lang": "en"
+  },
+  {
+    "Code": "30030102",
+    "Title": "Theft of vehicles or auto parts",
+    "Lang": "en"
+  }
 ]
 ```
 
-### 2. Get Road Types - `GlobalContext.GetRoadTypes()`
+### 2. `GlobalScopeManager.GetRoadTypes()`
 #### Invocation
 ```csharp
-var roadTypes = await reachClient.GlobalContext.GetRoadTypes();
+var roadTypes = await GlobalScopeManager.Instance.GetRoadTypes();
 ```
-#### Response
+#### Response example
 ```javascript
 [
   {
     "Code": 11,
     "Name": "Bridge"
   },
-  ...
-]
-```
-
-### 3. Get Countries - `GlobalContext.GetCountries()`
-#### Invocation
-```csharp
-var countries = await reachClient.GlobalContext.GetCountries();
-```
-#### Response
-```javascript
-[
   {
-    "Name": "Afghanistan",
-    "Alpha3": "AFG",
-    "CNC": 4
+    "Code": 7,
+    "Name": "Commercial place"
   },
   ...
 ]
 ```
 
-### 4. Get Nearby Incidents - `GlobalContext.GetNearbyIncidents(double lat, double lng, ClassificationGroup group)`
+### 3. `GlobalScopeManager.GetCountries()`
+#### Invocation
+```csharp
+var countries = await GlobalScopeManager.Instance.GetCountries();
+```
+#### Response example
+```javascript
+[
+  {
+    "Name": "Perú",
+    "Alpha2Code": "PE",
+    "Alpha3Code": "PER",
+    "NumericCode": 604,
+    "CallingCode": 51,
+    "Culture": "es-PE"
+  },
+  {
+    "Name": "México",
+    "Alpha2Code": "MX",
+    "Alpha3Code": "MEX",
+    "NumericCode": 484,
+    "CallingCode": 52,
+    "Culture": "es-MX"
+  }
+]
+```
+
+### 4. `GlobalScopeManager.GetNearbyIncidents(double lat, double lng, ClassificationGroup group)`
 #### Invocation
 * **ClassificationGroup** Medical Incidents, Public Protection, Human Security, Public Administration
 ```csharp
-var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051299, -77.064956, ClassificationGroup.HumanSecurity);
+var nearbyIncidents = await GlobalScopeManager.Instance.GetNearbyIncidents(-12.051299, -77.064956, ClassificationGroup.HumanSecurity);
 ```
-#### Response
+#### Response example
 ```javascript
 [
   {
@@ -84,17 +115,16 @@ var nearbyIncidents = await reachClient.GlobalContext.GetNearbyIncidents(-12.051
     "Lat": -12.0697313823956,
     "Lng": -77.053617797792,
     "UTC": "2017-10-26T23:36:29.753"
-  },
-  ...
+  }
 ]
 ```
 
-### 5. Get Incident Detail - `GlobalContext.GetIncidentDetail(int id)`
+### 5. `GlobalScopeManager.GetIncidentDetail(int id)`
 #### Invocation
 ```csharp
-var incident = await reachClient.GlobalContext.GetIncidentDetail(18052014);
+var incident = await GlobalScopeManager.Instance.GetIncidentDetail(18052014);
 ```
-#### Response
+#### Response example
 ```javascript
 {
   "Id": 18052014,
@@ -124,18 +154,16 @@ var incident = await reachClient.GlobalContext.GetIncidentDetail(18052014);
 }
 ```
 
-### 6. Verify Faces - `GlobalContext.VerifyFaces(VerifyFacesRequest verifyFacesRequest)`
+### 6. `GlobalScopeManager.VerifyFaces(VerifyFacesRequest verifyFacesRequest)`
 #### Invocation
-```javascript
-{
-  "Data": "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsL..."
-}
+```csharp
+var verifyFacesRequest = new VerifyFacesRequest { Data = "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsL..." };
 ```
 * **Data** must contain the byte array of an image (preferably .jpg up to 1024x1024) in Base64String.
 ```csharp
-var facesVerificationResult = await reachClient.GlobalContext.VerifyFaces(verifyFacesRequest);
+var facesVerificationResult = await GlobalScopeManager.Instance.VerifyFaces(verifyFacesRequest);
 ```
-#### Response
+#### Response example
 ```javascript
 {
   "Status": 1,
@@ -160,35 +188,44 @@ var facesVerificationResult = await reachClient.GlobalContext.VerifyFaces(verify
   * UNKNOWN_ERROR(5)  a server-side error.
 * **FacesCount** refers to the number of detected faces in the image
 
-### 7. Register SOS Alert - `GlobalContext.RegisterSOSAlert(SOSAlert alert)`
+### 7. `GlobalScopeManager.SendSOSAlert(SOSAlert alert)`
 #### Invocation
-```javascript
+```csharp
+var sosAlert = new SOSAlert
 {
-  "Sender": {
-    "Trusted": true,
-    "FullName": "Reach",
-    "Nickname": "Citizen Security Social Network",
-    "CountryCode": "51",
-    "PhoneNumber": "999999999",
-    "IDN": "11111111"
+  Sender = new User {
+    Trusted = true,
+    FullName = "Reach",
+    Nickname = "Citizen Security Social Network",
+    CountryCode = "51",
+    PhoneNumber = "999999999",
+    IDN = "11111111"
   },
-  "CNC": 604,
-  "Location": {
-    "Lat": -12.115032,
-    "Lng": -77.046044,
-    "UTC": "2017-10-26T23:36:29.753"
+  CNC = 604,
+  Location = new GPSLocation {
+    Lat = -12.115032,
+    Lng = -77.046044,
+    UTC = DateTime.UtcNow
   }
-}
+};
 ```
 * **Trusted** refers if the person is trusted.
 * **IDN** refers to the Identity Document Number of the person.
-* **CNC** refers to the Country Number Code, check `GlobalContext.GetCountries()`
+* **CNC** refers to the Country Number Code, check `GlobalScopeManager.GetCountries()`
 ```csharp
-await reachClient.GlobalContext.RegisterSOSAlert(alert);
+await GlobalScopeManager.Instance.SendSOSAlert(sosAlert);
+```
+
+### 8. `UserScopeManager.PostIncident(IncidentPost incidentPost)`
+#### Invocation
+```csharp
+var incidentPost = new IncidentPost();
+await UserScopeManager.Instance.PostIncident(incidentPost);
 ```
 
 ## Prerequisites
 * NETStandard.Library (>= 2.0.3)
+* akavache (>= 6.5.1)
 * Newtonsoft.Json (>= 12.0.1)
 * System.Drawing.Common (>= 4.5.1)
 
