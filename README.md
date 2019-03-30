@@ -19,11 +19,11 @@ ReachClient.Init("[userKey]");
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.12.49
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.11.48
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.12.49
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.11.48
 ```
 
 ## Usage
@@ -219,7 +219,7 @@ await GlobalScopeManager.Instance.SendSOSAlert(sosAlert);
 ### 8. `UserScopeManager.PostIncident(IncidentPost incidentPost)`
 #### Invocation
 ```csharp
-var incidentPost = new IncidentPost();
+var incidentPost = new IncidentPost() { /*...*/ };
 await UserScopeManager.Instance.PostIncident(incidentPost);
 ```
 
