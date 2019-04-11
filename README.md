@@ -11,19 +11,15 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 ```csharp
 ReachClient.Init("[clientId]", "[clientSecret]");
 ```
-or
-```csharp
-ReachClient.Init("[userKey]");
-```
 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.11.48
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.12.49
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.11.48
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.12.49
 ```
 
 ## Usage
@@ -216,18 +212,10 @@ var sosAlert = new SOSAlert
 await GlobalScopeManager.Instance.SendSOSAlert(sosAlert);
 ```
 
-### 8. `UserScopeManager.PostIncident(IncidentPost incidentPost)`
-#### Invocation
-```csharp
-var incidentPost = new IncidentPost() { /*...*/ };
-await UserScopeManager.Instance.PostIncident(incidentPost);
-```
-
 ## Prerequisites
 * NETStandard.Library (>= 2.0.3)
 * akavache (>= 6.5.1)
 * Newtonsoft.Json (>= 12.0.1)
-* System.Drawing.Common (>= 4.5.1)
 
 ## Contact
 If you need help installing or using the library, please contact Reach Support at hello@epicalsoft.com Reach's Support staff are well-versed in all of the Reach Libraries, and usually reply within 24 hours.

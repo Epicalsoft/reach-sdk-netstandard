@@ -31,14 +31,14 @@ namespace Epicalsoft.Reach.Api.Client.Net
             _clientSecret = clientSecret;
         }
 
-        public static void Init(string userkey)
-        {
-            if (string.IsNullOrWhiteSpace(userkey))
-                throw new ArgumentNullException("userkey");
+        //public static void Init(string userkey)
+        //{
+        //    if (string.IsNullOrWhiteSpace(userkey))
+        //        throw new ArgumentNullException("userkey");
 
-            _grant_type = "user_key";
-            _userkey = userkey;
-        }
+        //    _grant_type = "user_key";
+        //    _userkey = userkey;
+        //}
 
         public static void ClearLocalCache()
         {
