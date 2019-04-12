@@ -15,11 +15,11 @@ ReachClient.Init("[clientId]", "[clientSecret]");
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.12.49
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.13.50
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.12.49
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.13.50
 ```
 
 ## Usage

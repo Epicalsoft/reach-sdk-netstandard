@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Akavache</name>
+    </assembly>
+    <members>
+        <member name="T:Akavache.Sqlite3.LinkerPreserve">
+            <summary>
+            Providers a override for the linker.
+            This will use bait and switch to provide different versions.
+            </summary>
+        </member>
+        <member name="M:Akavache.Sqlite3.LinkerPreserve.#cctor">
+            <summary>
+            Initializes static members of the <see cref="T:Akavache.Sqlite3.LinkerPreserve"/> class.
+            This will be different in derived classes
+            and will use bait and switch.
+            </summary>
+            <exception cref="T:System.Exception">A exception due to this being in the non-derived assembly.</exception>
+        </member>
+        <member name="T:Akavache.Sqlite3.SQLitePersistentBlobCache">
+             <summary>
+             The main purpose of this class is to ensure older packages upgrade without breaking.
+             Existing installs of Akavache use a linker class referencing typeof(Akavache.Sqlite3.SQLitePersistentBlobCache)
+             This ensures that static analysis won't link these DLLs out
+            
+             This library was added to provide a default bundle implementation using the bundle_e_sqlite3 bundle.
+             Thus this class was moved here so it provides the hook for the linker and then registers and inits the sqlraw bundle.
+             </summary>
+        </member>
+        <member name="M:Akavache.Sqlite3.SQLitePersistentBlobCache.#ctor(System.String,System.Reactive.Concurrency.IScheduler)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Akavache.Sqlite3.SQLitePersistentBlobCache"/> class.
+            </summary>
+            <param name="databaseFile">The location of the database file which to store the blobs in.</param>
+            <param name="scheduler">Scheduler to use for contained observables.</param>
+        </member>
+        <member name="T:Akavache.Registrations">
+            <summary>
+            Setup registrations for the application.
+            </summary>
+        </member>
+        <member name="M:Akavache.Registrations.Start(System.String)">
+            <summary>
+            Registers the application name. This will create storage location for our storage.
+            </summary>
+            <param name="applicationName">The name of the application that is running.</param>
+        </member>
+        <member name="M:Akavache.Registrations.Register(Splat.IMutableDependencyResolver,Splat.IReadonlyDependencyResolver)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

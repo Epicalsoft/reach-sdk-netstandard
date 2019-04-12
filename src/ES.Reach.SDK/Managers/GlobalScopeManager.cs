@@ -23,10 +23,10 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
         public async Task<List<IncidentSeed>> GetNearbyIncidents(double lat, double lng, ClassificationGroup group)
         {
-            return await GetNearbyIncidents(lat, lng, group);
+            return await GetNearbyIncidentsAsync(lat, lng, group);
         }
 
-        private async Task<List<IncidentSeed>> GetNearbyIncidents(double lat, double lng, ClassificationGroup group, bool forceAuth = false)
+        private async Task<List<IncidentSeed>> GetNearbyIncidentsAsync(double lat, double lng, ClassificationGroup group, bool forceAuth = false)
         {
             try
             {
@@ -43,16 +43,16 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => GetNearbyIncidents(lat, lng, group, true));
+                return await ReachClient.CatchException(ex, () => GetNearbyIncidentsAsync(lat, lng, group, true));
             }
         }
 
         public async Task<Incident> GetIncidentDetail(int id)
         {
-            return await GetIncidentDetail(id);
+            return await GetIncidentDetailAsync(id);
         }
 
-        private async Task<Incident> GetIncidentDetail(int id, bool forceAuth = false)
+        private async Task<Incident> GetIncidentDetailAsync(int id, bool forceAuth = false)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => GetIncidentDetail(id, true));
+                return await ReachClient.CatchException(ex, () => GetIncidentDetailAsync(id, true));
             }
         }
 
