@@ -2,15 +2,13 @@
 {
     public class EvidencePost
     {
-        public EvidencePost(string source, EvidenceKind kind, bool protect)
+        public EvidencePost(int mediaFileId, bool protect)
         {
-            Source = source;
-            Kind = kind;
+            MediaFileId = mediaFileId;
             Protected = protect;
         }
 
-        public string Source { get; private set; }
-        public EvidenceKind Kind { get; private set; }
+        public int MediaFileId { get; private set; }
         public bool Protected { get; private set; }
     }
 }

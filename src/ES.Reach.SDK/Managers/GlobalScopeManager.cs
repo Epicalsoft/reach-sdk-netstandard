@@ -21,12 +21,12 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
         #region Incidents
 
-        public async Task<List<IncidentSeed>> GetNearbyIncidents(double lat, double lng, ClassificationGroup group)
+        public async Task<List<IncidentSeed>> GetNearbyIncidentsAsync(double lat, double lng, ClassificationGroup group)
         {
-            return await GetNearbyIncidentsAsync(lat, lng, group);
+            return await GetNearbyIncidents(lat, lng, group);
         }
 
-        private async Task<List<IncidentSeed>> GetNearbyIncidentsAsync(double lat, double lng, ClassificationGroup group, bool forceAuth = false)
+        private async Task<List<IncidentSeed>> GetNearbyIncidents(double lat, double lng, ClassificationGroup group, bool forceAuth = false)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
                 var body = JsonConvert.SerializeObject(new { Lat = lat, Lng = lng, Group = group });
                 var stringContent = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = await ReachClient.HttpClient.PostAsync(string.Format("{0}/v4.0/incidents/global/nearby", ReachClient.Endpoint), stringContent);
+                var response = await ReachClient.HttpClient.PostAsync(string.Format("{0}/v5.0/incidents/global/nearby", ReachClient.Endpoint), stringContent);
 
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<IncidentSeed>>(await response.Content.ReadAsStringAsync());
@@ -43,22 +43,22 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => GetNearbyIncidentsAsync(lat, lng, group, true));
+                return await ReachClient.CatchException(ex, () => GetNearbyIncidents(lat, lng, group, true));
             }
         }
 
-        public async Task<Incident> GetIncidentDetail(int id)
+        public async Task<Incident> GetIncidentDetailAsync(int id)
         {
-            return await GetIncidentDetailAsync(id);
+            return await GetIncidentDetail(id);
         }
 
-        private async Task<Incident> GetIncidentDetailAsync(int id, bool forceAuth = false)
+        private async Task<Incident> GetIncidentDetail(int id, bool forceAuth = false)
         {
             try
             {
                 await ReachClient.CheckAuthorization(forceAuth);
 
-                var response = await ReachClient.HttpClient.GetAsync(string.Format("{0}/v4.0/incidents/global/find?id={1}", ReachClient.Endpoint, id));
+                var response = await ReachClient.HttpClient.GetAsync(string.Format("{0}/v5.0/incidents/global/find?id={1}", ReachClient.Endpoint, id));
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<Incident>(await response.Content.ReadAsStringAsync());
                 else if (response.StatusCode == HttpStatusCode.NotFound)
@@ -68,7 +68,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => GetIncidentDetailAsync(id, true));
+                return await ReachClient.CatchException(ex, () => GetIncidentDetail(id, true));
             }
         }
 
@@ -76,7 +76,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
         #region Lists
 
-        public async Task<List<Classification>> GetClassifications()
+        public async Task<List<Classification>> GetClassificationsAsync()
         {
             string key = string.Format("ClassificationsState-{0}", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
@@ -85,7 +85,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             {
                 try
                 {
-                    var result = await GetClassificationsAsync(false);
+                    var result = await GetClassifications(false);
                     cachingObject = new CachingObject<List<Classification>>(result);
                     LocalCachingProvider.Instance.SaveState(key, cachingObject);
                 }
@@ -105,13 +105,13 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             return cachingObject.State;
         }
 
-        private async Task<List<Classification>> GetClassificationsAsync(bool forceAuth = false)
+        private async Task<List<Classification>> GetClassifications(bool forceAuth = false)
         {
             try
             {
                 await ReachClient.CheckAuthorization(forceAuth);
 
-                var response = await ReachClient.HttpClient.GetAsync(string.Format("{0}/v4.0/lists/classifications", ReachClient.Endpoint));
+                var response = await ReachClient.HttpClient.GetAsync(string.Format("{0}/v5.0/lists/classifications", ReachClient.Endpoint));
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<Classification>>(await response.Content.ReadAsStringAsync());
                 else
@@ -119,11 +119,11 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => GetClassificationsAsync(true));
+                return await ReachClient.CatchException(ex, () => GetClassifications(true));
             }
         }
 
-        public async Task<List<RoadType>> GetRoadTypes()
+        public async Task<List<RoadType>> GetRoadTypesAsync()
         {
             string key = string.Format("RoadTypesState-{0}", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
@@ -132,7 +132,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             {
                 try
                 {
-                    var result = await GetRoadTypesAsync(false);
+                    var result = await GetRoadTypes(false);
                     cachingObject = new CachingObject<List<RoadType>>(result);
                     LocalCachingProvider.Instance.SaveState(key, cachingObject);
                 }
@@ -152,13 +152,13 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             return cachingObject.State;
         }
 
-        private async Task<List<RoadType>> GetRoadTypesAsync(bool forceAuth = false)
+        private async Task<List<RoadType>> GetRoadTypes(bool forceAuth = false)
         {
             try
             {
                 await ReachClient.CheckAuthorization(forceAuth);
 
-                var response = await ReachClient.HttpClient.GetAsync(string.Format("{0}/v4.0/lists/roadtypes", ReachClient.Endpoint));
+                var response = await ReachClient.HttpClient.GetAsync(string.Format("{0}/v5.0/lists/roadtypes", ReachClient.Endpoint));
 
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<RoadType>>(await response.Content.ReadAsStringAsync());
@@ -167,11 +167,11 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => GetRoadTypesAsync(true));
+                return await ReachClient.CatchException(ex, () => GetRoadTypes(true));
             }
         }
 
-        public async Task<List<Country>> GetCountries()
+        public async Task<List<Country>> GetCountriesAsync()
         {
             string key = string.Format("Countries-{0}", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
@@ -180,7 +180,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             {
                 try
                 {
-                    var result = await GetCountriesAsync(false);
+                    var result = await GetCountries(false);
                     cachingObject = new CachingObject<List<Country>>(result);
                     LocalCachingProvider.Instance.SaveState(key, cachingObject);
                 }
@@ -200,12 +200,12 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             return cachingObject.State;
         }
 
-        private async Task<List<Country>> GetCountriesAsync(bool forceAuth = false)
+        private async Task<List<Country>> GetCountries(bool forceAuth = false)
         {
             try
             {
                 await ReachClient.CheckAuthorization(forceAuth);
-                var response = await ReachClient.HttpClient.GetAsync(string.Format("{0}/v4.0/lists/countries", ReachClient.Endpoint));
+                var response = await ReachClient.HttpClient.GetAsync(string.Format("{0}/v5.0/lists/countries", ReachClient.Endpoint));
 
                 if (response.IsSuccessStatusCode)
                     return JsonConvert.DeserializeObject<List<Country>>(await response.Content.ReadAsStringAsync());
@@ -214,7 +214,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => GetCountriesAsync(true));
+                return await ReachClient.CatchException(ex, () => GetCountries(true));
             }
         }
 
@@ -222,27 +222,30 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
         #region Faces
 
-        public async Task<FacesVerificationResult> VerifyFaces(VerifyFacesRequest verifyFacesRequest)
+        public async Task<VerifyFacesResult> VerifyFacesAsync(MediaFileData mediaFileData)
         {
-            return await VerifyFaces(verifyFacesRequest);
+            if (mediaFileData.Kind == MediaFileKind.Audio)
+                throw new ReachClientException(ReachExceptionCodes.ClientError, "This media file kind is not supported.");
+
+            return await VerifyFaces(mediaFileData);
         }
 
-        private async Task<FacesVerificationResult> VerifyFacesAsync(VerifyFacesRequest verifyFacesRequest, bool forceAuth = false)
+        private async Task<VerifyFacesResult> VerifyFaces(MediaFileData mediaFileData, bool forceAuth = false)
         {
             try
             {
                 await ReachClient.CheckAuthorization(forceAuth);
-                var stringContent = new StringContent(JsonConvert.SerializeObject(verifyFacesRequest), Encoding.UTF8, "application/json");
-                var response = await ReachClient.HttpClient.PostAsync(string.Format("{0}/v4.0/faces/verify", ReachClient.Endpoint), stringContent);
+                var stringContent = new StringContent(JsonConvert.SerializeObject(mediaFileData), Encoding.UTF8, "application/json");
+                var response = await ReachClient.HttpClient.PostAsync(string.Format("{0}/v5.0/faces/verify", ReachClient.Endpoint), stringContent);
 
                 if (response.IsSuccessStatusCode)
-                    return JsonConvert.DeserializeObject<FacesVerificationResult>(await response.Content.ReadAsStringAsync());
+                    return JsonConvert.DeserializeObject<VerifyFacesResult>(await response.Content.ReadAsStringAsync());
                 else
                     throw await ReachClient.ProcessUnsuccessResponseMessage(response);
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => VerifyFacesAsync(verifyFacesRequest, true));
+                return await ReachClient.CatchException(ex, () => VerifyFaces(mediaFileData, true));
             }
         }
 
@@ -250,18 +253,18 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
         #region SOS
 
-        public async Task<bool> SendSOSAlert(SOSAlert alert)
+        public async Task<bool> SendSOSAlertAsync(SOSAlert alert)
         {
-            return await SendSOSAlertAsync(alert);
+            return await SendSOSAlert(alert);
         }
 
-        private async Task<bool> SendSOSAlertAsync(SOSAlert alert, bool forceAuth = false)
+        private async Task<bool> SendSOSAlert(SOSAlert alert, bool forceAuth = false)
         {
             try
             {
                 await ReachClient.CheckAuthorization(forceAuth);
                 var stringContent = new StringContent(JsonConvert.SerializeObject(alert), Encoding.UTF8, "application/json");
-                var response = await ReachClient.HttpClient.PostAsync(string.Format("{0}/v4.0/sos/global/alerts", ReachClient.Endpoint), stringContent);
+                var response = await ReachClient.HttpClient.PostAsync(string.Format("{0}/v5.0/sos/global/alerts", ReachClient.Endpoint), stringContent);
 
                 if (response.IsSuccessStatusCode)
                     return true;
@@ -270,7 +273,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
             }
             catch (Exception ex)
             {
-                return await ReachClient.CatchException(ex, () => SendSOSAlertAsync(alert, true));
+                return await ReachClient.CatchException(ex, () => SendSOSAlert(alert, true));
             }
         }
 

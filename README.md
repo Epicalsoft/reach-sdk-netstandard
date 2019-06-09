@@ -15,18 +15,18 @@ ReachClient.Init("[clientId]", "[clientSecret]");
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.13.50
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.14.51
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.13.50
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.14.51
 ```
 
 ## Usage
 ### 1. `GlobalScopeManager.GetClassifications()`
 #### Invocation
 ```csharp
-var classifications = await GlobalScopeManager.Instance.GetClassifications();
+var classifications = await GlobalScopeManager.Instance.GetClassificationsAsync();
 ```
 #### Response example
 ```javascript
@@ -52,7 +52,7 @@ var classifications = await GlobalScopeManager.Instance.GetClassifications();
 ### 2. `GlobalScopeManager.GetRoadTypes()`
 #### Invocation
 ```csharp
-var roadTypes = await GlobalScopeManager.Instance.GetRoadTypes();
+var roadTypes = await GlobalScopeManager.Instance.GetRoadTypesAsync();
 ```
 #### Response example
 ```javascript
@@ -72,7 +72,7 @@ var roadTypes = await GlobalScopeManager.Instance.GetRoadTypes();
 ### 3. `GlobalScopeManager.GetCountries()`
 #### Invocation
 ```csharp
-var countries = await GlobalScopeManager.Instance.GetCountries();
+var countries = await GlobalScopeManager.Instance.GetCountriesAsync();
 ```
 #### Response example
 ```javascript
@@ -100,7 +100,7 @@ var countries = await GlobalScopeManager.Instance.GetCountries();
 #### Invocation
 * **ClassificationGroup** Medical Incidents, Public Protection, Human Security, Public Administration
 ```csharp
-var nearbyIncidents = await GlobalScopeManager.Instance.GetNearbyIncidents(-12.051299, -77.064956, ClassificationGroup.HumanSecurity);
+var nearbyIncidents = await GlobalScopeManager.Instance.GetNearbyIncidentsAsync(-12.051299, -77.064956, ClassificationGroup.HumanSecurity);
 ```
 #### Response example
 ```javascript
@@ -118,7 +118,7 @@ var nearbyIncidents = await GlobalScopeManager.Instance.GetNearbyIncidents(-12.0
 ### 5. `GlobalScopeManager.GetIncidentDetail(int id)`
 #### Invocation
 ```csharp
-var incident = await GlobalScopeManager.Instance.GetIncidentDetail(18052014);
+var incident = await GlobalScopeManager.Instance.GetIncidentDetailAsync(18052014);
 ```
 #### Response example
 ```javascript
@@ -157,7 +157,7 @@ var verifyFacesRequest = new VerifyFacesRequest { Data = "/9j/4AAQSkZJRgABAQEAYA
 ```
 * **Data** must contain the byte array of an image (preferably .jpg up to 1024x1024) in Base64String.
 ```csharp
-var facesVerificationResult = await GlobalScopeManager.Instance.VerifyFaces(verifyFacesRequest);
+var facesVerificationResult = await GlobalScopeManager.Instance.VerifyFacesAsync(verifyFacesRequest);
 ```
 #### Response example
 ```javascript
@@ -209,13 +209,13 @@ var sosAlert = new SOSAlert
 * **IDN** refers to the Identity Document Number of the person.
 * **CNC** refers to the Country Number Code, check `GlobalScopeManager.GetCountries()`
 ```csharp
-await GlobalScopeManager.Instance.SendSOSAlert(sosAlert);
+await GlobalScopeManager.Instance.SendSOSAlertAsync(sosAlert);
 ```
 
 ## Prerequisites
 * NETStandard.Library (>= 2.0.3)
-* akavache (>= 6.5.1)
-* Newtonsoft.Json (>= 12.0.1)
+* akavache (>= 6.5.9)
+* Newtonsoft.Json (>= 12.0.2)
 
 ## Contact
 If you need help installing or using the library, please contact Reach Support at hello@epicalsoft.com Reach's Support staff are well-versed in all of the Reach Libraries, and usually reply within 24 hours.

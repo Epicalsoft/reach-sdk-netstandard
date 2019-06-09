@@ -15,7 +15,21 @@
 
     public enum EvidenceKind
     {
-        Image = 1
+        Image = 1,
+        Audio = 2,
+        Video = 3
+    }
+
+    public enum MediaFileKind
+    {
+        Image = 1,
+        Audio = 2,
+        Video = 3
+    }
+
+    public enum MediaFileTarget
+    {
+        Evidences = 1
     }
 
     public enum ClassificationGroup

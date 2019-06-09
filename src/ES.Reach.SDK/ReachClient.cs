@@ -16,9 +16,9 @@ namespace Epicalsoft.Reach.Api.Client.Net
         public static AuthToken AuthToken { get; private set; }
         private static HttpClient _httpClient;
         internal static HttpClient HttpClient { get { if (null == _httpClient) CreateHttpClient(); return _httpClient; } }
-        private static string _clientId, _clientSecret, _userkey, _grant_type;
+        private static string _clientId, _clientSecret, _userKey, _username, _password, _grant_type;
 
-        public static void Init(string clientId, string clientSecret)
+        public static void InitWithClientCredentials(string clientId, string clientSecret)
         {
             if (string.IsNullOrWhiteSpace(clientId))
                 throw new ArgumentNullException("clientId");
@@ -31,14 +31,27 @@ namespace Epicalsoft.Reach.Api.Client.Net
             _clientSecret = clientSecret;
         }
 
-        //public static void Init(string userkey)
-        //{
-        //    if (string.IsNullOrWhiteSpace(userkey))
-        //        throw new ArgumentNullException("userkey");
+        public static void InitWithUserKey(string userKey)
+        {
+             if (string.IsNullOrWhiteSpace(userKey))
+                throw new ArgumentNullException("userkey");
 
-        //    _grant_type = "user_key";
-        //    _userkey = userkey;
-        //}
+            _grant_type = "user_key";
+            _userKey = userKey;
+        }
+
+        public static void InitWithPassword(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new ArgumentNullException("username");
+
+            if (string.IsNullOrWhiteSpace(password))
+                throw new ArgumentNullException("password");
+
+            _grant_type = "password";
+            _username = username;
+            _password = password;
+        }
 
         public static void ClearLocalCache()
         {
@@ -48,7 +61,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
         internal static void CreateHttpClient()
         {
             if (string.IsNullOrWhiteSpace(_grant_type))
-                throw new ReachClientException(ReachExceptionCodes.ClientError, "ReachClient.Init() has been not called.");
+                throw new ReachClientException(ReachExceptionCodes.ClientError, "An Init method has been not called.");
 
             _httpClient = new HttpClient(new HttpClientHandler { MaxRequestContentBufferSize = 67108864 });
             _httpClient.MaxResponseContentBufferSize = 67108864;
@@ -73,12 +86,20 @@ namespace Epicalsoft.Reach.Api.Client.Net
             else if (_grant_type == "user_key")
             {
                 tokenRequest.Grant_Type = "user_key";
-                tokenRequest.User_Key = _userkey;
+                tokenRequest.User_Key = _userKey;
+                response = await HttpClient.PostAsync(string.Format("{0}/api/token", Endpoint),
+                    new StringContent(JsonConvert.SerializeObject(tokenRequest), Encoding.UTF8, "application/json"));
+            }
+            else if (_grant_type == "password")
+            {
+                tokenRequest.Grant_Type = "password";
+                tokenRequest.Username = _username;
+                tokenRequest.Password = _password;
                 response = await HttpClient.PostAsync(string.Format("{0}/api/token", Endpoint),
                     new StringContent(JsonConvert.SerializeObject(tokenRequest), Encoding.UTF8, "application/json"));
             }
             else
-                throw new ReachClientException(ReachExceptionCodes.ClientError, "ReachClient.Init() has been not called.");
+                throw new ReachClientException(ReachExceptionCodes.ClientError, "An Init method has been not called.");
 
             if (response.IsSuccessStatusCode)
             {
