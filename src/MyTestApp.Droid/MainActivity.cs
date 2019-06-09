@@ -4,6 +4,7 @@ using Android.Support.V7.App;
 using Android.Widget;
 using Epicalsoft.Reach.Api.Client.Net;
 using Epicalsoft.Reach.Api.Client.Net.Managers;
+using Epicalsoft.Reach.Api.Client.Net.Models;
 using Newtonsoft.Json;
 using System;
 
@@ -17,7 +18,7 @@ namespace MyTestApp.Droid
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
-            ReachClient.Init("[clientId]", "[clientSecret]");
+            ReachClient.InitWithClientCredentials("[clientId]", "[clientSecret]");
 
             FindViewById<Button>(Resource.Id.button1).Click += MainActivity_Click;
         }
@@ -33,13 +34,24 @@ namespace MyTestApp.Droid
 
             try
             {
-                var classifications = await GlobalScopeManager.Instance.GetClassifications();
-                var roadTypes = await GlobalScopeManager.Instance.GetRoadTypes();
-                var countries = await GlobalScopeManager.Instance.GetCountries();
+                var classifications = await GlobalScopeManager.Instance.GetClassificationsAsync();
+                var roadTypes = await GlobalScopeManager.Instance.GetRoadTypesAsync();
+                var countries = await GlobalScopeManager.Instance.GetCountriesAsync();
 
                 FindViewById<TextView>(Resource.Id.classificationsTextView).Text = JsonConvert.SerializeObject(classifications, Formatting.Indented);
                 FindViewById<TextView>(Resource.Id.roadTypesTextView).Text = JsonConvert.SerializeObject(roadTypes, Formatting.Indented);
                 FindViewById<TextView>(Resource.Id.countiresTextView).Text = JsonConvert.SerializeObject(countries, Formatting.Indented);
+
+                var byteArray = new byte[] { };
+
+                var result = await UserScopeManager.Instance.UploadMediaFileAsync(new MediaFileData
+                {
+                    Code = new Guid("3F2504E0-4F89-11D3-9A0C-0305E82C3301"),
+                    Target = MediaFileTarget.Evidences,
+                    Kind = MediaFileKind.Image,
+                    Data = Convert.ToBase64String(byteArray),
+                    Filename = "incident_evidence_001.jpg"
+                });
             }
             catch (ReachClientException ex)
             {

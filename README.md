@@ -10,20 +10,22 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 
 ```csharp
 ReachClient.Init("[clientId]", "[clientSecret]");
+//or
+ReachClient.Init("[userKey]");
 ```
 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.14.51
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.15.52
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.14.51
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.15.52
 ```
 
 ## Usage
-### 1. `GlobalScopeManager.GetClassifications()`
+### 1. `GlobalScopeManager.GetClassificationsAsync()`
 #### Invocation
 ```csharp
 var classifications = await GlobalScopeManager.Instance.GetClassificationsAsync();
@@ -49,7 +51,7 @@ var classifications = await GlobalScopeManager.Instance.GetClassificationsAsync(
 ]
 ```
 
-### 2. `GlobalScopeManager.GetRoadTypes()`
+### 2. `GlobalScopeManager.GetRoadTypesAsync()`
 #### Invocation
 ```csharp
 var roadTypes = await GlobalScopeManager.Instance.GetRoadTypesAsync();
@@ -69,7 +71,7 @@ var roadTypes = await GlobalScopeManager.Instance.GetRoadTypesAsync();
 ]
 ```
 
-### 3. `GlobalScopeManager.GetCountries()`
+### 3. `GlobalScopeManager.GetCountriesAsync()`
 #### Invocation
 ```csharp
 var countries = await GlobalScopeManager.Instance.GetCountriesAsync();
@@ -96,7 +98,7 @@ var countries = await GlobalScopeManager.Instance.GetCountriesAsync();
 ]
 ```
 
-### 4. `GlobalScopeManager.GetNearbyIncidents(double lat, double lng, ClassificationGroup group)`
+### 4. `GlobalScopeManager.GetNearbyIncidentsAsync(double lat, double lng, ClassificationGroup group)`
 #### Invocation
 * **ClassificationGroup** Medical Incidents, Public Protection, Human Security, Public Administration
 ```csharp
@@ -115,7 +117,7 @@ var nearbyIncidents = await GlobalScopeManager.Instance.GetNearbyIncidentsAsync(
 ]
 ```
 
-### 5. `GlobalScopeManager.GetIncidentDetail(int id)`
+### 5. `GlobalScopeManager.GetIncidentDetailAsync(int id)`
 #### Invocation
 ```csharp
 var incident = await GlobalScopeManager.Instance.GetIncidentDetailAsync(18052014);
@@ -150,15 +152,17 @@ var incident = await GlobalScopeManager.Instance.GetIncidentDetailAsync(18052014
 }
 ```
 
-### 6. `GlobalScopeManager.VerifyFaces(VerifyFacesRequest verifyFacesRequest)`
+### 6. `GlobalScopeManager.VerifyFacesAsync(VerifyFacesRequest verifyFacesRequest)`
 #### Invocation
 ```csharp
-var verifyFacesRequest = new VerifyFacesRequest { Data = "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsL..." };
-```
-* **Data** must contain the byte array of an image (preferably .jpg up to 1024x1024) in Base64String.
-```csharp
+var verifyFacesRequest = new VerifyFacesRequest {
+	Data = "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsL..."
+};
+
 var facesVerificationResult = await GlobalScopeManager.Instance.VerifyFacesAsync(verifyFacesRequest);
 ```
+* **Data** must contain the byte array of an image (preferably .jpg up to 4096x4096) in Base64String.
+
 #### Response example
 ```javascript
 {
@@ -177,14 +181,14 @@ var facesVerificationResult = await GlobalScopeManager.Instance.VerifyFacesAsync
 }
 ```
 * **Status** may contain the following values:
-  * OK (1) indicates that no errors occurred and at least one result was returned.
-  * ZERO_RESULTS (2)  indicates that the search was successful but returned no results.
-  * OVER_QUERY_LIMIT (3) indicates that you are over your quota.
-  * INVALID_REQUEST(4) indicates that the data value is wrong or missing.
-  * UNKNOWN_ERROR(5)  a server-side error.
+  * Ok (1) indicates that no errors occurred and at least one result was returned.
+  * ZeroResults (2)  indicates that the search was successful but returned no results.
+  * OverQueryLimit (3) indicates that you are over your quota.
+  * InvalidRequest (4) indicates that the data value is wrong or missing.
+  * UnknownError (5)  a server-side error.
 * **FacesCount** refers to the number of detected faces in the image
 
-### 7. `GlobalScopeManager.SendSOSAlert(SOSAlert alert)`
+### 7. `GlobalScopeManager.SendSOSAlertAsync(SOSAlert alert)`
 #### Invocation
 ```csharp
 var sosAlert = new SOSAlert
@@ -204,12 +208,38 @@ var sosAlert = new SOSAlert
     UTC = DateTime.UtcNow
   }
 };
+
+await GlobalScopeManager.Instance.SendSOSAlertAsync(sosAlert);
 ```
 * **Trusted** refers if the person is trusted.
 * **IDN** refers to the Identity Document Number of the person.
-* **CNC** refers to the Country Number Code, check `GlobalScopeManager.GetCountries()`
+* **CNC** refers to the Country Number Code, check `GlobalScopeManager.GetCountriesAsync()`
+
+### 8. `UserScopeManager.UploadMediaFileAsync(MediaFileData mediaFileData)`
+#### Invocation
 ```csharp
-await GlobalScopeManager.Instance.SendSOSAlertAsync(sosAlert);
+var mediaFileData = new MediaFileData
+{
+    Code = new Guid("3F2504E0-4F89-11D3-9A0C-0305E82C3301"),
+    Target = MediaFileTarget.Evidences,
+    Kind = MediaFileKind.Image,
+    Data = Convert.ToBase64String(byteArray),
+    Filename = "incident_evidence_001.jpg"
+};
+
+var result = await UserScopeManager.Instance.UploadMediaFileAsync(mediaFileData);
+```
+* **Target** may contain the following values:
+  * Evidences (1) indicates that operation corresponds to an incident's evidence upload.
+* **Kind** may contain the following values:
+  * Image (1) indicates that media file data corresponds to an image.
+
+#### Response example
+```javascript
+{
+  "MediaFileId": 1,
+  "DataCode": "3F2504E0-4F89-11D3-9A0C-0305E82C3301"
+}
 ```
 
 ## Prerequisites
@@ -224,6 +254,6 @@ Please report any bugs as issues.
 Follow @reachsos on Twitter and /reachsos on Facebook for updates.
 
 ## License
-Copyright 2018 Epicalsoft Corporation.
+Copyright 2019 Epicalsoft Corporation.
 
 Licensed under the Apache License: http://www.apache.org/licenses/LICENSE-2.0
