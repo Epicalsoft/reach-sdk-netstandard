@@ -278,5 +278,34 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
         }
 
         #endregion SOS
+
+        #region MapServices
+
+        public async Task<MapAddress> GetReverseGeocodeAsync(double lat, double lng)
+        {
+            return await GetReverseGeocode(lat, lng);
+        }
+
+        private async Task<MapAddress> GetReverseGeocode(double lat, double lng, bool forceAuth = false)
+        {
+            try
+            {
+                await ReachClient.CheckAuthorization(forceAuth);
+
+                var response = await ReachClient.HttpClient.GetAsync(string.Format(CultureInfo.InvariantCulture, "{0}/v5.0/mapservices/global/reversegeocode?lat={1}&lng={2}", ReachClient.Endpoint, lat, lng));
+                if (response.IsSuccessStatusCode)
+                    return JsonConvert.DeserializeObject<MapAddress>(await response.Content.ReadAsStringAsync());
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                else
+                    throw await ReachClient.ProcessUnsuccessResponseMessage(response);
+            }
+            catch (Exception ex)
+            {
+                return await ReachClient.CatchException(ex, () => GetReverseGeocode(lat, lng, true));
+            }
+        }
+
+        #endregion MapServices
     }
 }
