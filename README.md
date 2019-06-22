@@ -19,11 +19,11 @@ ReachClient.InitWithPassword("[username]", "[password]");
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.16.53
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.17.54
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.16.53
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.17.54
 ```
 
 ## Usage
@@ -100,7 +100,7 @@ var countries = await GlobalScopeManager.Instance.GetCountriesAsync();
 ]
 ```
 
-### 4. `GlobalScopeManager.GetNearbyIncidentsAsync(double lat, double lng, ClassificationGroup group)`
+### 4. `GlobalScopeManager.GetNearbyIncidentsAsync(double, double, ClassificationGroup)`
 #### Invocation
 * **ClassificationGroup** Medical Incidents, Public Protection, Human Security, Public Administration
 ```csharp
@@ -119,7 +119,7 @@ var nearbyIncidents = await GlobalScopeManager.Instance.GetNearbyIncidentsAsync(
 ]
 ```
 
-### 5. `GlobalScopeManager.GetIncidentDetailAsync(int id)`
+### 5. `GlobalScopeManager.GetIncidentDetailAsync(int)`
 #### Invocation
 ```csharp
 var incident = await GlobalScopeManager.Instance.GetIncidentDetailAsync(18052014);
@@ -154,7 +154,7 @@ var incident = await GlobalScopeManager.Instance.GetIncidentDetailAsync(18052014
 }
 ```
 
-### 6. `GlobalScopeManager.VerifyFacesAsync(VerifyFacesRequest verifyFacesRequest)`
+### 6. `GlobalScopeManager.VerifyFacesAsync(VerifyFacesRequest)`
 #### Invocation
 ```csharp
 var verifyFacesRequest = new VerifyFacesRequest {
@@ -190,7 +190,7 @@ var facesVerificationResult = await GlobalScopeManager.Instance.VerifyFacesAsync
   * UnknownError (5)  a server-side error.
 * **FacesCount** refers to the number of detected faces in the image
 
-### 7. `GlobalScopeManager.SendSOSAlertAsync(SOSAlert alert)`
+### 7. `GlobalScopeManager.SendSOSAlertAsync(SOSAlert)`
 #### Invocation
 ```csharp
 var sosAlert = new SOSAlert
@@ -217,7 +217,7 @@ await GlobalScopeManager.Instance.SendSOSAlertAsync(sosAlert);
 * **IDN** refers to the Identity Document Number of the person.
 * **CNC** refers to the Country Number Code, check `GlobalScopeManager.GetCountriesAsync()`
 
-### 8. `UserScopeManager.UploadMediaFileAsync(MediaFileData mediaFileData)`
+### 8. `UserScopeManager.UploadMediaFileAsync(MediaFileData)`
 #### Invocation
 ```csharp
 var mediaFileData = new MediaFileData
@@ -244,9 +244,15 @@ var result = await UserScopeManager.Instance.UploadMediaFileAsync(mediaFileData)
 }
 ```
 
+### 9. `GlobalScopeManager.GetReverseGeocode(double, double)`
+#### Invocation
+```csharp
+var address = await GlobalScopeManager.Instance.GetReverseGeocode(lat, lng);
+```
+
 ## Prerequisites
 * NETStandard.Library (>= 2.0.3)
-* akavache (>= 6.5.9)
+* akavache (>= 6.5.1)
 * Newtonsoft.Json (>= 12.0.2)
 
 ## Contact
