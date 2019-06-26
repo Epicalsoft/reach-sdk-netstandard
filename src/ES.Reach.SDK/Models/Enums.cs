@@ -17,7 +17,8 @@
     {
         Image = 1,
         Audio = 2,
-        Video = 3
+        Video = 3,
+        Other = 99
     }
 
     public enum MediaFileKind

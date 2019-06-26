@@ -19,11 +19,11 @@ ReachClient.InitWithPassword("[username]", "[password]");
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.18.55
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.19.56
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.18.55
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.19.56
 ```
 
 ## Usage
@@ -149,8 +149,8 @@ var incident = await GlobalScopeManager.Instance.GetIncidentDetailAsync(18052014
     "Lang": "en"
   },
   "Nickname": "Atreyu",
-  "Trusted": true,
-  "Verified": false
+  "FCP": 2,
+  "Evidences": []
 }
 ```
 
