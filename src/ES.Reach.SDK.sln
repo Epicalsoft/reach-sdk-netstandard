@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epicalsoft.Reach.Api.Client.Net", "ES.Reach.SDK\Epicalsoft.Reach.Api.Client.Net.csproj", "{E0A03DA9-3DE8-40B7-854A-FA4390CA73A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epicalsoft.Reach.Api.Client.Test", "Epicalsoft.Reach.Api.Client.Test\Epicalsoft.Reach.Api.Client.Test.csproj", "{B592A87F-A876-4CC6-A899-1D6799536EFC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTestApp.Droid", "MyTestApp.Droid\MyTestApp.Droid.csproj", "{138F8B7E-0700-4DA7-907B-11E242BF960F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,16 +15,6 @@ Global
 		{E0A03DA9-3DE8-40B7-854A-FA4390CA73A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0A03DA9-3DE8-40B7-854A-FA4390CA73A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0A03DA9-3DE8-40B7-854A-FA4390CA73A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B592A87F-A876-4CC6-A899-1D6799536EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B592A87F-A876-4CC6-A899-1D6799536EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B592A87F-A876-4CC6-A899-1D6799536EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B592A87F-A876-4CC6-A899-1D6799536EFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{138F8B7E-0700-4DA7-907B-11E242BF960F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{138F8B7E-0700-4DA7-907B-11E242BF960F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{138F8B7E-0700-4DA7-907B-11E242BF960F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{138F8B7E-0700-4DA7-907B-11E242BF960F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{138F8B7E-0700-4DA7-907B-11E242BF960F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{138F8B7E-0700-4DA7-907B-11E242BF960F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

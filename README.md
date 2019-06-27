@@ -9,21 +9,21 @@ Learn more about about the provided samples, documentation, integrating the SDK 
 * Initialize the client using
 
 ```csharp
-ReachClient.InitWithClientCredentials("[clientId]", "[clientSecret]");
+ReachClient.Init("[clientId]", "[clientSecret]");
 //or
-ReachClient.InitWithUserKey("[userKey]");
+ReachClient.Init("[userKey]");
 //or
-ReachClient.InitWithPassword("[username]", "[password]");
+ReachClient.Init("[clientId]", "[clientSecret]", "[username]", "[password]");
 ```
 
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.19.56
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.20.57
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.19.56
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.20.57
 ```
 
 ## Usage

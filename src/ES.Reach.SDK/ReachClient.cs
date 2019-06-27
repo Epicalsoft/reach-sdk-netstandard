@@ -18,7 +18,7 @@ namespace Epicalsoft.Reach.Api.Client.Net
         internal static HttpClient HttpClient { get { if (null == _httpClient) CreateHttpClient(); return _httpClient; } }
         private static string _clientId, _clientSecret, _userKey, _username, _password, _grant_type;
 
-        public static void InitWithClientCredentials(string clientId, string clientSecret)
+        public static void Init(string clientId, string clientSecret)
         {
             if (string.IsNullOrWhiteSpace(clientId))
                 throw new ArgumentNullException("clientId");
@@ -31,17 +31,23 @@ namespace Epicalsoft.Reach.Api.Client.Net
             _clientSecret = clientSecret;
         }
 
-        public static void InitWithUserKey(string userKey)
+        public static void Init(string userKey)
         {
-             if (string.IsNullOrWhiteSpace(userKey))
+            if (string.IsNullOrWhiteSpace(userKey))
                 throw new ArgumentNullException("userkey");
 
             _grant_type = "user_key";
             _userKey = userKey;
         }
 
-        public static void InitWithPassword(string username, string password)
+        public static void Init(string clientId, string clientSecret, string username, string password)
         {
+            if (string.IsNullOrWhiteSpace(clientId))
+                throw new ArgumentNullException("clientId");
+
+            if (string.IsNullOrWhiteSpace(clientSecret))
+                throw new ArgumentNullException("clientSecret");
+
             if (string.IsNullOrWhiteSpace(username))
                 throw new ArgumentNullException("username");
 
@@ -49,6 +55,8 @@ namespace Epicalsoft.Reach.Api.Client.Net
                 throw new ArgumentNullException("password");
 
             _grant_type = "password";
+            _clientId = clientId;
+            _clientSecret = clientSecret;
             _username = username;
             _password = password;
         }
@@ -72,29 +80,39 @@ namespace Epicalsoft.Reach.Api.Client.Net
 
         private async static Task AuthorizeAppAsync()
         {
-            var tokenRequest = new AuthTokenRequest();
             HttpResponseMessage response = null;
 
             if (_grant_type == "client_credentials")
             {
-                tokenRequest.Grant_Type = "client_credentials";
-                tokenRequest.Client_Id = _clientId;
-                tokenRequest.Client_Secret = _clientSecret;
+                var tokenRequest = new
+                {
+                    Grant_Type = _grant_type,
+                    Client_Id = _clientId,
+                    Client_Secret = _clientSecret
+                };
                 response = await HttpClient.PostAsync(string.Format("{0}/api/token", Endpoint),
                     new StringContent(JsonConvert.SerializeObject(tokenRequest), Encoding.UTF8, "application/json"));
             }
             else if (_grant_type == "user_key")
             {
-                tokenRequest.Grant_Type = "user_key";
-                tokenRequest.User_Key = _userKey;
+                var tokenRequest = new
+                {
+                    Grant_Type = _grant_type,
+                    User_Key = _userKey
+                };
                 response = await HttpClient.PostAsync(string.Format("{0}/api/token", Endpoint),
                     new StringContent(JsonConvert.SerializeObject(tokenRequest), Encoding.UTF8, "application/json"));
             }
             else if (_grant_type == "password")
             {
-                tokenRequest.Grant_Type = "password";
-                tokenRequest.Username = _username;
-                tokenRequest.Password = _password;
+                var tokenRequest = new
+                {
+                    Grant_Type = _grant_type,
+                    Client_Id = _clientId,
+                    Client_Secret = _clientSecret,
+                    Username = _username,
+                    Password = _password
+                };
                 response = await HttpClient.PostAsync(string.Format("{0}/api/token", Endpoint),
                     new StringContent(JsonConvert.SerializeObject(tokenRequest), Encoding.UTF8, "application/json"));
             }
