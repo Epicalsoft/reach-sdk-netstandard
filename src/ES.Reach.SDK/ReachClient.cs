@@ -66,6 +66,12 @@ namespace Epicalsoft.Reach.Api.Client.Net
             LocalCachingProvider.ClearLocalCache();
         }
 
+        public static void Logout()
+        {
+            AuthToken = null;
+
+        }
+
         internal static void CreateHttpClient()
         {
             if (string.IsNullOrWhiteSpace(_grant_type))
