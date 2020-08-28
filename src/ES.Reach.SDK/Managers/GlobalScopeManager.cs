@@ -1,5 +1,4 @@
 ﻿using Epicalsoft.Reach.Api.Client.Net.Models;
-using Epicalsoft.Reach.Api.Client.Net.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -78,31 +77,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
         public async Task<List<Classification>> GetClassificationsAsync()
         {
-            string key = string.Format("ClassificationsState-{0}", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-
-            var cachingObject = await LocalCachingProvider.Instance.LoadState<CachingObject<List<Classification>>>(key);
-            if (null == cachingObject || cachingObject.IsExpired)
-            {
-                try
-                {
-                    var result = await GetClassifications(false);
-                    cachingObject = new CachingObject<List<Classification>>(result);
-                    LocalCachingProvider.Instance.SaveState(key, cachingObject);
-                }
-                catch (ReachClientException ex)
-                {
-                    throw ex;
-                }
-                catch (Exception ex)
-                {
-                    if (null != cachingObject)
-                        return cachingObject.State;
-
-                    throw new ReachClientException(ReachExceptionCodes.ClientUnknown, ex);
-                }
-            }
-
-            return cachingObject.State;
+            return await GetClassifications(false);
         }
 
         private async Task<List<Classification>> GetClassifications(bool forceAuth = false)
@@ -125,31 +100,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
         public async Task<List<RoadType>> GetRoadTypesAsync()
         {
-            string key = string.Format("RoadTypesState-{0}", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-
-            var cachingObject = await LocalCachingProvider.Instance.LoadState<CachingObject<List<RoadType>>>(key);
-            if (null == cachingObject || cachingObject.IsExpired)
-            {
-                try
-                {
-                    var result = await GetRoadTypes(false);
-                    cachingObject = new CachingObject<List<RoadType>>(result);
-                    LocalCachingProvider.Instance.SaveState(key, cachingObject);
-                }
-                catch (ReachClientException ex)
-                {
-                    throw ex;
-                }
-                catch (Exception ex)
-                {
-                    if (null != cachingObject)
-                        return cachingObject.State;
-
-                    throw new ReachClientException(ReachExceptionCodes.ClientUnknown, ex);
-                }
-            }
-
-            return cachingObject.State;
+            return await GetRoadTypes(false);
         }
 
         private async Task<List<RoadType>> GetRoadTypes(bool forceAuth = false)
@@ -173,31 +124,7 @@ namespace Epicalsoft.Reach.Api.Client.Net.Managers
 
         public async Task<List<Country>> GetCountriesAsync()
         {
-            string key = string.Format("Countries-{0}", CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-
-            var cachingObject = await LocalCachingProvider.Instance.LoadState<CachingObject<List<Country>>>(key);
-            if (null == cachingObject || cachingObject.IsExpired)
-            {
-                try
-                {
-                    var result = await GetCountries(false);
-                    cachingObject = new CachingObject<List<Country>>(result);
-                    LocalCachingProvider.Instance.SaveState(key, cachingObject);
-                }
-                catch (ReachClientException ex)
-                {
-                    throw ex;
-                }
-                catch (Exception ex)
-                {
-                    if (null != cachingObject)
-                        return cachingObject.State;
-
-                    throw new ReachClientException(ReachExceptionCodes.ClientUnknown, ex);
-                }
-            }
-
-            return cachingObject.State;
+            return await GetCountries(false);
         }
 
         private async Task<List<Country>> GetCountries(bool forceAuth = false)

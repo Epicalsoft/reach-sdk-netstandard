@@ -19,11 +19,11 @@ ReachClient.Init("[clientId]", "[clientSecret]", "[username]", "[password]");
 ## Installation
 #### Package Manager
 ```
-PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.21.58
+PM > Install-Package Epicalsoft.Reach.Api.Client.Net -Version 1.3.22.0
 ```
 #### .NET CLI
 ```
-> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.21.58
+> dotnet add package Epicalsoft.Reach.Api.Client.Net --version 1.3.22.0
 ```
 
 ## Usage
@@ -252,7 +252,6 @@ var address = await GlobalScopeManager.Instance.GetReverseGeocode(lat, lng);
 
 ## Prerequisites
 * NETStandard.Library (>= 2.0.3)
-* akavache (>= 6.4.1)
 * Newtonsoft.Json (>= 12.0.2)
 
 ## Contact

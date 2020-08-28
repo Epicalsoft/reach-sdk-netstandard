@@ -1,5 +1,4 @@
-﻿using Epicalsoft.Reach.Api.Client.Net.Utils;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.Net;
@@ -59,11 +58,6 @@ namespace Epicalsoft.Reach.Api.Client.Net
             _clientSecret = clientSecret;
             _username = username;
             _password = password;
-        }
-
-        public static void ClearLocalCache()
-        {
-            LocalCachingProvider.ClearLocalCache();
         }
 
         public static void Logout()
